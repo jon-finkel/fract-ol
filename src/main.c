@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/08 23:43:25 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/08 23:56:01 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,13 @@ void			output(t_mlx *mlx, const t_info f, const uint16_t it_max)
 				tmp = z.r;
 				z.r = z.r *z.r - z.i * z.i + z.cr;
 				z.i = 2 * z.i * tmp + z.ci;
-				z.color = it * 105 + (it * 60 << 8) + (it * 98 << 16);
 				if (z.r * z.r + z.i * z.i >= 4)
+				{
+					z.color = it + 1 - log(log((double)ABS(it_max))) / log(2);
 					break ;
+				}
 			}
+			z.color += it * 19 << 16;
 			ftx_buffpixel(_MLX_IMG, x, y, (it == it_max ? _BLACK : z.color));
 		}
 	ftx_showimg(mlx, 0, 0);
@@ -84,7 +87,7 @@ int				main(int argc, const char *argv[])
 	if ((frac.type = get_args(argc, argv[1])) == E_NULL)
 		KTHXBYE;
 	frac.mlx = ftx_init(&mlx_stack);
-	frac.it = 200;
+	frac.it = 2000;
 	ftx_winctor(frac.mlx, WIN_X, WIN_Y, WIN_TITLE);
 	ftx_imgctor(frac.mlx, WIN_X, WIN_Y);
 	f.zoom = 400.0;
