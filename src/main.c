@@ -6,13 +6,11 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/08 23:56:01 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/09 09:11:11 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#define WIN_X 1080
-#define WIN_Y 960
 #define WIN_TITLE "fractol"
 
 static const char	*g_usage =
@@ -31,19 +29,6 @@ static t_type	get_args(int argc, const char *s)
 	}
 	ft_printf("%s\n", g_usage);
 	GIMME(E_NULL);
-}
-
-void			terminate(t_frac *frac)
-{
-	ftx_mlxdtor(frac->mlx);
-	exit(EXIT_SUCCESS);
-}
-
-int				key_hook(int key, t_frac *frac)
-{
-	if (key == X_KEY_ESCAPE)
-		terminate(frac);
-	KTHXBYE;
 }
 
 void			output(t_mlx *mlx, const t_info f, const uint16_t it_max)
@@ -67,38 +52,41 @@ void			output(t_mlx *mlx, const t_info f, const uint16_t it_max)
 				z.r = z.r *z.r - z.i * z.i + z.cr;
 				z.i = 2 * z.i * tmp + z.ci;
 				if (z.r * z.r + z.i * z.i >= 4)
-				{
-					z.color = it + 1 - log(log((double)ABS(it_max))) / log(2);
 					break ;
-				}
 			}
-			z.color += it * 19 << 16;
+			z.color += it * 11 << 16;
 			ftx_buffpixel(_MLX_IMG, x, y, (it == it_max ? _BLACK : z.color));
 		}
 	ftx_showimg(mlx, 0, 0);
 }
 
+static t_info	*init_info(t_info *info)
+{
+	info->x0 = -2.1;
+	info->x1 = 0.6;
+	info->y0 = -1.2;
+	info->y1 = 1.2;
+	info->zoom = 400.0;
+	GIMME(info);
+}
+
 int				main(int argc, const char *argv[])
 {
 	t_frac	frac;
-	t_info	f;
+	t_info	info_stack;
 	t_mlx	mlx_stack;
 
 	if ((frac.type = get_args(argc, argv[1])) == E_NULL)
 		KTHXBYE;
 	frac.mlx = ftx_init(&mlx_stack);
-	frac.it = 2000;
 	ftx_winctor(frac.mlx, WIN_X, WIN_Y, WIN_TITLE);
 	ftx_imgctor(frac.mlx, WIN_X, WIN_Y);
-	f.zoom = 400.0;
-	f.x0 = -2.1;
-	f.x1 = 0.6;
-	f.y0 = -1.2;
-	f.y1 = 1.2;
-	f.x_max = ROUND((f.x1 - f.x0) * f.zoom);
-	f.y_max = ROUND((f.y1 - f.y0) * f.zoom);
-	output(frac.mlx, f, frac.it);
-	mlx_hook(frac.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key_hook, &frac);
+	frac.info = init_info(&info_stack);
+	frac.it = 100;
+	mlx_hook(frac.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK,\
+		(int (*)())key_hook, &frac);
+	mlx_hook(frac.mlx->win[0], X_BUTTONPRESS, X_BUTTONMOTION_MASK,\
+		(int (*)())mouse_hook, &frac);
 	mlx_loop(frac.mlx->mlx);
 	KTHXBYE;
 }
