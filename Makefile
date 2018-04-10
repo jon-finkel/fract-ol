@@ -6,7 +6,7 @@
 #    By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/06 20:54:44 by nfinkel           #+#    #+#              #
-#    Updated: 2018/04/09 00:59:40 by nfinkel          ###   ########.fr        #
+#    Updated: 2018/04/10 23:16:14 by nfinkel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ FRAMEWORKS +=				$(FW) OpenGL
 
 #	Sources
 OBJECTS =					$(patsubst %.c,$(OBJDIR)%.o,$(SRCS))
-SRC +=						main.c hook.c misc.c
+SRC +=						main.c
 
 SRCS +=						$(SRC)
 vpath %.c $(SRC_DIR)
