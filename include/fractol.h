@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/11 22:04:44 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/11 22:56:53 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <mlx.h>
 # include <pthread.h>
 
-# define THREADS (16)
+# define THREADS (32)
 # define WIN_X 1200
 # define WIN_Y 900
 
@@ -43,13 +43,11 @@ typedef struct	s_complex
 
 typedef struct	s_info
 {
-	double		x0;
-	double		x1;
-	double		y0;
-	double		y1;
+	double		x_scale;
+	double		y_scale;
 	double		zoom;
+	int			x;
 	int			x_max;
-	int			y_max;
 	t_mlx		*mlx;
 	uint16_t	it;
 }				t_info;
