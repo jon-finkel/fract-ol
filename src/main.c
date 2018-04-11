@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/11 23:19:54 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/11 23:38:05 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,18 @@ int	key_hook(int key, t_frac *f)
 {
 	if (key == X_KEY_ESCAPE)
 		terminate(f);
+	else if (key == X_KEY_W)
+		f->info->y_scale -= 0.1;
+	else if (key == X_KEY_A)
+		f->info->x_scale += 0.1;
+	else if (key == X_KEY_S)
+		f->info->y_scale += 0.1;
+	else if (key == X_KEY_D)
+		f->info->x_scale -= 0.1;
+	else if (key == X_KEY_MINUS)
+		f->info->it -= 15;
+	else if (key == X_KEY_EQUAL)
+		f->info->it += 15;
 	GIMME(output(f->info));
 }
 
@@ -106,9 +118,9 @@ int	mouse_hook(int button, int x, int y, t_frac *f)
 	(void)x;
 	(void)y;
 	if (button == X_SCROLL_DOWN)
-		f->info->zoom -= 5;
+		f->info->zoom *= 0.9;
 	else if (button == X_SCROLL_UP)
-		f->info->zoom += 5;
+		f->info->zoom *= 1.1;
 	GIMME(output(f->info));
 }
 
