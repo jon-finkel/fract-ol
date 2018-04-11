@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/10 23:16:33 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/11 22:04:44 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,31 @@ typedef enum	e_type
 	E_MANDEL
 }				t_type;
 
+typedef struct	s_complex
+{
+	double		cr;
+	double		ci;
+	double		r;
+	double		i;
+	int			color;
+}				t_complex;
+
+typedef struct	s_info
+{
+	double		x0;
+	double		x1;
+	double		y0;
+	double		y1;
+	double		zoom;
+	int			x_max;
+	int			y_max;
+	t_mlx		*mlx;
+	uint16_t	it;
+}				t_info;
+
 typedef struct	s_frac
 {
+	t_info		*info;
 	t_mlx		*mlx;
 	t_type		type;
 }				t_frac;
