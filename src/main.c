@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/12 15:37:10 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/12 23:19:53 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,6 @@ void	*mandelbrot(t_info *f)
 	pthread_exit(NULL);
 }
 
-static void	init_info(t_info *f)
-{
-	f->it = 100;
-	f->x_scale = -2.1;
-	f->y_scale = -1.2;
-	f->zoom = 400.0;
-}
-
 void	terminate(t_info *f)
 {
 	ftx_mlxdtor(f->mlx);
@@ -105,13 +97,13 @@ int	key(int key, t_info *f)
 	if (key == X_KEY_ESCAPE)
 		terminate(f);
 	else if (key == X_KEY_W)
-		f->y_scale += 0.1;
+		f->y_scale += 100 / f->zoom;
 	else if (key == X_KEY_A)
-		f->x_scale += 0.1;
+		f->x_scale += 100 / f->zoom;
 	else if (key == X_KEY_S)
-		f->y_scale -= 0.1;
+		f->y_scale -= 100 / f->zoom;
 	else if (key == X_KEY_D)
-		f->x_scale -= 0.1;
+		f->x_scale -= 100 / f->zoom;
 	else if (key == X_KEY_MINUS)
 		f->it -= (f->it < 5 ? f->it : 5);
 	else if (key == X_KEY_EQUAL)
@@ -148,7 +140,10 @@ int				main(int argc, const char *argv[])
 	f.mlx = ftx_init(&mlx_stack);
 	ftx_winctor(f.mlx, WIN_X, WIN_Y, WIN_TITLE);
 	ftx_imgctor(f.mlx, WIN_X, WIN_Y);
-	init_info(&f);
+	f.it = 100;
+	f.x_scale = -3.7;
+	f.y_scale = -2.1;
+	f.zoom = 250.0;
 	key(0, &f);
 	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key, &f);
 	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, button, &f);
