@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/12 15:14:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/12 15:37:10 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static const char	*g_usage =
 static const void	*g_f[] =
 {
 	NULL,
+	NULL, //julia,
 	mandelbrot
 };
 
@@ -81,7 +82,7 @@ void	terminate(t_info *f)
 int	output(t_info *f)
 {
 	int			k;
-	pthread_t	threads[THREADS];
+	pthread_t	th[THREADS];
 	t_info		info[THREADS];
 
 	ftx_clearwin(f->mlx);
@@ -91,10 +92,10 @@ int	output(t_info *f)
 		info[k] = *f;
 		info[k].x = ((WIN_X / THREADS) * k) - 1;
 		info[k].x_max = (WIN_X / THREADS) * (k + 1) + 1;
-		pthread_create(threads + k, NULL, (void *(*)(void *))g_f[1], info + k);
+		pthread_create(th + k, NULL, (void *(*)(void *))g_f[f->type], info + k);
 	}
 	while (k--)
-		pthread_join(threads[k], NULL);
+		pthread_join(th[k], NULL);
 	ftx_showimg(f->mlx, 0, 0);
 	KTHXBYE;
 }
