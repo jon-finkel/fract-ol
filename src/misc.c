@@ -6,9 +6,14 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/11 21:59:15 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 01:01:56 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+void	terminate(t_info *f)
+{
+	ftx_mlxdtor(f->mlx);
+	exit(EXIT_SUCCESS);
+}
