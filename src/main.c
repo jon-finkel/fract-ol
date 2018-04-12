@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/11 23:38:05 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/12 09:36:04 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,21 @@ void	*mandel(t_info *info)
 	uint16_t	it;
 
 	while (++info->x < info->x_max && (y = -1))
-		while (++y < WIN_Y)
+		while (++y < WIN_Y && (it = -1))
 		{
-			ft_memset(&z, '\0', sizeof(t_complex));
 			z.cr = info->x / info->zoom + info->x_scale;
 			z.ci = y / info->zoom + info->y_scale;
-			it = -1;
+			z.r = 0;
+			z.i = 0;
 			while (++it < info->it && z.r * z.r + z.i * z.i <= 4)
 			{
 				tmp = z.r;
 				z.r = z.r *z.r - z.i * z.i + z.cr;
 				z.i = 2 * z.i * tmp + z.ci;
 			}
-			z.color += it * 11 << 16;
-			ftx_buffpixel(info->mlx->img[0], info->x, y, (it == info->it ? _BLACK : z.color));
+			z.color = it * 11 << 16;
+			ftx_buffpixel(info->mlx->img[0], info->x, y,\
+				(it == info->it ? _BLACK : z.color));
 		}
 	pthread_exit(NULL);
 }
@@ -107,16 +108,16 @@ int	key_hook(int key, t_frac *f)
 	else if (key == X_KEY_D)
 		f->info->x_scale -= 0.1;
 	else if (key == X_KEY_MINUS)
-		f->info->it -= 15;
+		f->info->it -= (f->info->it < 5 ? f->info->it : 5);
 	else if (key == X_KEY_EQUAL)
-		f->info->it += 15;
+		f->info->it += (f->info->it < 2000 ? 5 : 0);
 	GIMME(output(f->info));
 }
 
 int	mouse_hook(int button, int x, int y, t_frac *f)
 {
-	(void)x;
-	(void)y;
+(void)x;
+(void)y;
 	if (button == X_SCROLL_DOWN)
 		f->info->zoom *= 0.9;
 	else if (button == X_SCROLL_UP)
@@ -136,9 +137,9 @@ int				main(int argc, const char *argv[])
 	ftx_winctor(f.mlx, WIN_X, WIN_Y, WIN_TITLE);
 	ftx_imgctor(f.mlx, WIN_X, WIN_Y);
 	f.info = init_info(&info_stack, f.mlx);
+	key_hook(0, &f);
 	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key_hook, &f);
 	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, mouse_hook, &f);
-	key_hook(0, &f);
 	mlx_loop(f.mlx->mlx);
 	KTHXBYE;
 }
