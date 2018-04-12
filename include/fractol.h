@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/12 09:35:53 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/12 15:09:50 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,10 @@ typedef struct	s_info
 	int			x;
 	int			x_max;
 	t_mlx		*mlx;
+	t_type		type;
 	uint16_t	it;
 }				t_info;
 
-typedef struct	s_frac
-{
-	t_info		*info;
-	t_mlx		*mlx;
-	t_type		type;
-}				t_frac;
+void			*mandelbrot(t_info *info);
 
 #endif

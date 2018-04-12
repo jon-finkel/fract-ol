@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/12 09:36:04 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/12 15:14:42 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 static const char	*g_usage =
 {
 	"usage: ./fractol <fractal>"
+};
+
+static const void	*g_f[] =
+{
+	NULL,
+	mandelbrot
 };
 
 static t_type	get_args(int argc, const char *s)
@@ -31,104 +37,109 @@ static t_type	get_args(int argc, const char *s)
 	GIMME(E_NULL);
 }
 
-void	*mandel(t_info *info)
+void	*mandelbrot(t_info *f)
 {
 	double		tmp;
 	double		y;
 	t_complex	z;
 	uint16_t	it;
 
-	while (++info->x < info->x_max && (y = -1))
+	while (++f->x < f->x_max && (y = -1))
 		while (++y < WIN_Y && (it = -1))
 		{
-			z.cr = info->x / info->zoom + info->x_scale;
-			z.ci = y / info->zoom + info->y_scale;
+			z.cr = f->x / f->zoom + f->x_scale;
+			z.ci = y / f->zoom + f->y_scale;
 			z.r = 0;
 			z.i = 0;
-			while (++it < info->it && z.r * z.r + z.i * z.i <= 4)
+			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
 				tmp = z.r;
 				z.r = z.r *z.r - z.i * z.i + z.cr;
 				z.i = 2 * z.i * tmp + z.ci;
 			}
 			z.color = it * 11 << 16;
-			ftx_buffpixel(info->mlx->img[0], info->x, y,\
-				(it == info->it ? _BLACK : z.color));
+			ftx_buffpixel(f->mlx->img[0], f->x, y,\
+				(it == f->it ? _BLACK : z.color));
 		}
 	pthread_exit(NULL);
 }
 
-static t_info	*init_info(t_info *info, t_mlx *mlx)
+static void	init_info(t_info *f)
 {
-	info->it = 100;
-	info->mlx = mlx;
-	info->x_scale = -2.1;
-	info->y_scale = -1.2;
-	info->zoom = 400.0;
-	GIMME(info);
+	f->it = 100;
+	f->x_scale = -2.1;
+	f->y_scale = -1.2;
+	f->zoom = 400.0;
 }
 
-void	terminate(t_frac *f)
+void	terminate(t_info *f)
 {
 	ftx_mlxdtor(f->mlx);
 	exit(EXIT_SUCCESS);
 }
 
-int	output(t_info *info)
+int	output(t_info *f)
 {
 	int			k;
 	pthread_t	threads[THREADS];
-	t_info		f[THREADS];
+	t_info		info[THREADS];
 
-	ftx_clearwin(info->mlx);
+	ftx_clearwin(f->mlx);
 	k = -1;
 	while (++k < THREADS)
 	{
-		f[k] = *info;
-		f[k].x = ((WIN_X / THREADS) * k) - 1;
-		f[k].x_max = (WIN_X / THREADS) * (k + 1) + 1;
-		pthread_create(threads + k, NULL, (void *(*)(void *))mandel, f + k);
+		info[k] = *f;
+		info[k].x = ((WIN_X / THREADS) * k) - 1;
+		info[k].x_max = (WIN_X / THREADS) * (k + 1) + 1;
+		pthread_create(threads + k, NULL, (void *(*)(void *))g_f[1], info + k);
 	}
 	while (k--)
 		pthread_join(threads[k], NULL);
-	ftx_showimg(info->mlx, 0, 0);
+	ftx_showimg(f->mlx, 0, 0);
 	KTHXBYE;
 }
 
-int	key_hook(int key, t_frac *f)
+int	key(int key, t_info *f)
 {
 	if (key == X_KEY_ESCAPE)
 		terminate(f);
 	else if (key == X_KEY_W)
-		f->info->y_scale -= 0.1;
+		f->y_scale += 0.1;
 	else if (key == X_KEY_A)
-		f->info->x_scale += 0.1;
+		f->x_scale += 0.1;
 	else if (key == X_KEY_S)
-		f->info->y_scale += 0.1;
+		f->y_scale -= 0.1;
 	else if (key == X_KEY_D)
-		f->info->x_scale -= 0.1;
+		f->x_scale -= 0.1;
 	else if (key == X_KEY_MINUS)
-		f->info->it -= (f->info->it < 5 ? f->info->it : 5);
+		f->it -= (f->it < 5 ? f->it : 5);
 	else if (key == X_KEY_EQUAL)
-		f->info->it += (f->info->it < 2000 ? 5 : 0);
-	GIMME(output(f->info));
+		f->it += (f->it < 2000 ? 5 : 0);
+	GIMME(output(f));
 }
 
-int	mouse_hook(int button, int x, int y, t_frac *f)
+int	button(int button, int x, int y, t_info *f)
 {
-(void)x;
-(void)y;
+	(void)x;
+	(void)y;
 	if (button == X_SCROLL_DOWN)
-		f->info->zoom *= 0.9;
+		f->zoom *= 0.9;
 	else if (button == X_SCROLL_UP)
-		f->info->zoom *= 1.1;
-	GIMME(output(f->info));
+		f->zoom *= 1.1;
+	GIMME(output(f));
+}
+
+int motion(int x, int y, t_info *f) //TODO julia
+{
+	(void)x;
+	(void)y;
+	(void)f;
+	KTHXBYE;
 }
 
 int				main(int argc, const char *argv[])
 {
-	t_frac	f;
-	t_info	info_stack;
+	t_info	f;
 	t_mlx	mlx_stack;
 
 	if ((f.type = get_args(argc, argv[1])) == E_NULL)
@@ -136,10 +147,11 @@ int				main(int argc, const char *argv[])
 	f.mlx = ftx_init(&mlx_stack);
 	ftx_winctor(f.mlx, WIN_X, WIN_Y, WIN_TITLE);
 	ftx_imgctor(f.mlx, WIN_X, WIN_Y);
-	f.info = init_info(&info_stack, f.mlx);
-	key_hook(0, &f);
-	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key_hook, &f);
-	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, mouse_hook, &f);
+	init_info(&f);
+	key(0, &f);
+	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key, &f);
+	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, button, &f);
+	mlx_hook(f.mlx->win[0], X_MOTIONNOTIFY, X_POINTERMOTION_MASK, motion, &f);
 	mlx_loop(f.mlx->mlx);
 	KTHXBYE;
 }
