@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 01:02:36 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 13:23:29 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ static const char				*g_usage =
 	"usage: ./fractol [burning_ship | julia | mandelbrot]"
 };
 
-static const struct s_fractal	g_fractal[3] =
+static const struct s_fractal	g_fractal[E_VOID] =
 {
-	{"Burning Ship", burning},
+	{"Mandelbrot", mandelbrot},
 	{"Julia", burning},
-	{"Mandelbrot", mandelbrot}
+	{"Burning Ship", burning},
+	{"Tricorn", tricorn}
 };
 
 static t_type	get_args(int argc, const char *s)
@@ -36,9 +37,11 @@ static t_type	get_args(int argc, const char *s)
 			GIMME(E_JULIA);
 		else if (ft_strequ(s, "mandelbrot"))
 			GIMME(E_MANDEL);
+		else if (ft_strequ(s, "tricorn"))
+			GIMME(E_TRICORN);
 	}
 	ft_printf("%s\n", g_usage);
-	GIMME(E_NULL);
+	GIMME(E_VOID);
 }
 
 int				output(t_info *f)
@@ -80,7 +83,7 @@ int				main(int argc, const char *argv[])
 	t_info	f;
 	t_mlx	mlx_stack;
 
-	if ((f.type = get_args(argc, argv[1])) == E_NULL)
+	if ((f.type = get_args(argc, argv[1])) == E_VOID)
 		KTHXBYE;
 	f.mlx = ftx_init(&mlx_stack);
 	ftx_winctor(f.mlx, WIN_X, WIN_Y, WIN_TITLE);

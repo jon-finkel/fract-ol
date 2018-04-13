@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 01:05:52 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 13:22:33 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ static void	change_fractal(int key, t_info *f)
 	if (key == X_KEY_0)
 		f->type = E_MANDEL;
 	else if (key == X_KEY_1)
+		f->type = E_JULIA; //Julia
+	else if (key == X_KEY_2)
 		f->type = E_BURNING;
+	else if (key == X_KEY_3)
+		f->type = E_TRICORN;
 }
 
 int			key(int key, t_info *f)

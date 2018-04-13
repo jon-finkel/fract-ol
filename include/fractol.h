@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 01:01:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 13:22:41 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@
 
 typedef enum	e_type
 {
-	E_BURNING,
-	E_JULIA,
 	E_MANDEL,
-	E_NULL
+	E_JULIA,
+	E_BURNING,
+	E_TRICORN,
+	E_VOID
 }				t_type;
 
 typedef struct	s_complex
@@ -76,6 +77,7 @@ int				motion(int x, int y, t_info *f);
 ** Fractals
 */
 void			*burning(t_info *info);
+void			*tricorn(t_info *info);
 void			*mandelbrot(t_info *info);
 
 #endif
