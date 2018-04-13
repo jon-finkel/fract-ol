@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 14:05:26 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 18:21:08 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <pthread.h>
 
 # define THREADS (16)
-# define WIN_X (1600)
+# define WIN_X (1920)
 # define WIN_Y (1200)
 
 # define _BLACK 0xff000000
@@ -37,8 +37,8 @@ typedef struct	s_complex
 {
 	double		cr;
 	double		ci;
-	double		r;
 	double		i;
+	double		r;
 }				t_complex;
 
 typedef struct	s_julia
@@ -46,8 +46,6 @@ typedef struct	s_julia
 	bool		lock;
 	double		ci;
 	double		cr;
-	int			x;
-	int			y;
 }				t_julia;
 
 typedef struct	s_info

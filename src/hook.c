@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 14:08:30 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 17:29:52 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 static void	reset_info(t_info *f)
 {
 	f->it = 100;
-	f->x_scale = -3.7;
-	f->y_scale = -2.1;
+	f->x_scale = -2.45;
+	f->y_scale = -1.55;
 	f->r = 11;
 	f->g = 0;
 	f->b = 0;
-	f->zoom = 250.0;
+	f->zoom = 400.0;
 	f->julia->ci = -0.27015;
 	f->julia->cr = -0.715;
 	f->julia->lock = false;
-	f->julia->x = 0;
-	f->julia->y = 0;
 }
 
 int			button(int button, int x, int y, t_info *f)
@@ -53,6 +51,10 @@ static void	change_fractal(int key, t_info *f)
 
 int			key(int key, t_info *f)
 {
+if (key == X_SCROLL_DOWN)
+f->zoom *= 0.9;				// FUCKING MOUSE
+else if (key == X_SCROLL_UP)
+f->zoom *= 1.1;
 	if (key == X_KEY_ESCAPE)
 		terminate(f);
 	else if (key == X_KEY_SPACE)
@@ -78,18 +80,10 @@ int			key(int key, t_info *f)
 
 int			motion(int x, int y, t_info *f)
 {
-	if (f->type == E_JULIA && f->julia->lock == false)
+	if (f->type == E_JULIA && !f->julia->lock)
 	{
-		if (x > f->julia->x)
-			f->julia->ci += 0.5 / f->zoom;
-		if (x < f->julia->x)
-			f->julia->ci -= 0.5 / f->zoom;
-		if (y > f->julia->y)
-			f->julia->cr += 0.5 / f->zoom;
-		if (y < f->julia->y)
-			f->julia->cr -= 0.5 / f->zoom;
-		f->julia->x = x;
-		f->julia->y = y;
+		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
+		f->julia->cr = (x - WIN_X / 2) / f->zoom;
 		GIMME(!output(f) && !output_data(f));
 	}
 	KTHXBYE;

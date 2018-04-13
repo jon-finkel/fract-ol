@@ -6,18 +6,13 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 14:17:10 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 17:39:56 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#define WIN_TITLE "fractol"
+#define WIN_TITLE "Fract'ol, a fractal explorer, by Jon Finkel"
 #define BUFF_SIZE (128)
-
-static const char				*g_usage =
-{
-	"usage: ./fractol [burning_ship | julia | mandelbrot]"
-};
 
 static const struct s_fractal	g_fractal[E_VOID] =
 {
@@ -40,7 +35,8 @@ static t_type	get_args(int argc, const char *s)
 		else if (ft_strequ(s, "tricorn"))
 			GIMME(E_TRICORN);
 	}
-	ft_printf("%s\n", g_usage);
+	ft_printf("usage: ./fractol [mandelbrot | julia | burning_ship | tricorn"\
+		"]\n");
 	GIMME(E_VOID);
 }
 
@@ -73,7 +69,7 @@ int				output_data(t_info *f)
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " --- DATA ---");
 	ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", f->zoom);
+	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", WIN_X * f->zoom / 100);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 30, _WHITE, buff);
 	ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);

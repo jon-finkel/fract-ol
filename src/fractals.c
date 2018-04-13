@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 01:02:15 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 13:48:01 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 18:23:18 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	*julia(t_info *f)
 			{
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + f->julia->cr;
-				z.i = 2 * z.i * tmp + f->julia->ci;
+				z.i = z.i * tmp;
+				z.i += z.i + f->julia->ci;
 			}
 			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
 			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
@@ -83,7 +84,8 @@ void	*burning(t_info *f)
 			{
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + z.cr;
-				z.i = 2 * fabs(z.i * tmp) + z.ci;
+				z.i = fabs(z.i * tmp);
+				z.i += z.i + z.ci;
 			}
 			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
 			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
@@ -110,7 +112,8 @@ void	*mandelbrot(t_info *f)
 			{
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + z.cr;
-				z.i = 2 * z.i * tmp + z.ci;
+				z.i = z.i * tmp;
+				z.i += z.i + z.ci;
 			}
 			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
 			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
