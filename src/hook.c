@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 13:22:33 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 14:08:30 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static void	reset_info(t_info *f)
 	f->g = 0;
 	f->b = 0;
 	f->zoom = 250.0;
+	f->julia->ci = -0.27015;
+	f->julia->cr = -0.715;
+	f->julia->lock = false;
+	f->julia->x = 0;
+	f->julia->y = 0;
 }
 
 int			button(int button, int x, int y, t_info *f)
@@ -39,7 +44,7 @@ static void	change_fractal(int key, t_info *f)
 	if (key == X_KEY_0)
 		f->type = E_MANDEL;
 	else if (key == X_KEY_1)
-		f->type = E_JULIA; //Julia
+		f->type = E_JULIA;
 	else if (key == X_KEY_2)
 		f->type = E_BURNING;
 	else if (key == X_KEY_3)
@@ -52,6 +57,8 @@ int			key(int key, t_info *f)
 		terminate(f);
 	else if (key == X_KEY_SPACE)
 		reset_info(f);
+	else if (key == X_KEY_T && f->type == E_JULIA)
+		f->julia->lock = (f->julia->lock ? false : true);
 	else if (key == X_KEY_W)
 		f->y_scale += 100 / f->zoom;
 	else if (key == X_KEY_A)
@@ -69,10 +76,21 @@ int			key(int key, t_info *f)
 	GIMME(!output(f) && !output_data(f));
 }
 
-int			motion(int x, int y, t_info *f) //TODO julia
+int			motion(int x, int y, t_info *f)
 {
-	(void)x;
-	(void)y;
-	(void)f;
-	GIMME(!output(f) && !output_data(f));
+	if (f->type == E_JULIA && f->julia->lock == false)
+	{
+		if (x > f->julia->x)
+			f->julia->ci += 0.5 / f->zoom;
+		if (x < f->julia->x)
+			f->julia->ci -= 0.5 / f->zoom;
+		if (y > f->julia->y)
+			f->julia->cr += 0.5 / f->zoom;
+		if (y < f->julia->y)
+			f->julia->cr -= 0.5 / f->zoom;
+		f->julia->x = x;
+		f->julia->y = y;
+		GIMME(!output(f) && !output_data(f));
+	}
+	KTHXBYE;
 }

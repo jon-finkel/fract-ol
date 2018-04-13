@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 13:23:29 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 14:17:10 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static const char				*g_usage =
 static const struct s_fractal	g_fractal[E_VOID] =
 {
 	{"Mandelbrot", mandelbrot},
-	{"Julia", burning},
+	{"Julia", julia},
 	{"Burning Ship", burning},
 	{"Tricorn", tricorn}
 };
@@ -71,21 +71,25 @@ int				output_data(t_info *f)
 	char	buff[BUFF_SIZE];
 
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " --- DATA ---");
-	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", f->zoom);
+	ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
+	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", f->zoom);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 30, _WHITE, buff);
+	ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
+	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);
 	KTHXBYE;
 }
 
 int				main(int argc, const char *argv[])
 {
 	t_info	f;
+	t_julia	julia;
 	t_mlx	mlx_stack;
 
 	if ((f.type = get_args(argc, argv[1])) == E_VOID)
 		KTHXBYE;
 	f.mlx = ftx_init(&mlx_stack);
+	f.julia = &julia;
 	ftx_winctor(f.mlx, WIN_X, WIN_Y, WIN_TITLE);
 	ftx_imgctor(f.mlx, WIN_X, WIN_Y);
 	key(X_KEY_SPACE, &f);

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 13:22:41 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 14:05:26 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ typedef struct	s_complex
 	double		i;
 }				t_complex;
 
+typedef struct	s_julia
+{
+	bool		lock;
+	double		ci;
+	double		cr;
+	int			x;
+	int			y;
+}				t_julia;
+
 typedef struct	s_info
 {
 	double		x_scale;
@@ -51,6 +60,7 @@ typedef struct	s_info
 	uint8_t		r;
 	uint8_t		g;
 	uint8_t		b;
+	t_julia		*julia;
 	t_mlx		*mlx;
 	t_type		type;
 	uint16_t	it;
@@ -76,8 +86,9 @@ int				motion(int x, int y, t_info *f);
 /*
 ** Fractals
 */
+void			*mandelbrot(t_info *info);
+void			*julia(t_info *info);
 void			*burning(t_info *info);
 void			*tricorn(t_info *info);
-void			*mandelbrot(t_info *info);
 
 #endif
