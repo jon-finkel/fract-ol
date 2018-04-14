@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 18:21:08 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 19:25:21 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum	e_type
 	E_JULIA,
 	E_BURNING,
 	E_TRICORN,
+	E_FISH,
 	E_VOID
 }				t_type;
 
@@ -84,9 +85,10 @@ int				motion(int x, int y, t_info *f);
 /*
 ** Fractals
 */
-void			*mandelbrot(t_info *info);
-void			*julia(t_info *info);
 void			*burning(t_info *info);
+void			*fish(t_info *info);
+void			*julia(t_info *info);
+void			*mandelbrot(t_info *info);
 void			*tricorn(t_info *info);
 
 #endif

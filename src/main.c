@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 17:39:56 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 19:26:22 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,27 @@ static const struct s_fractal	g_fractal[E_VOID] =
 	{"Mandelbrot", mandelbrot},
 	{"Julia", julia},
 	{"Burning Ship", burning},
-	{"Tricorn", tricorn}
+	{"Tricorn", tricorn},
+	{"Fish", fish}
 };
 
 static t_type	get_args(int argc, const char *s)
 {
 	if (argc == 2)
 	{
-		if (ft_strequ(s, "burning_ship"))
-			GIMME(E_BURNING);
+		if (ft_strequ(s, "mandelbrot"))
+			GIMME(E_MANDEL);
 		else if (ft_strequ(s, "julia"))
 			GIMME(E_JULIA);
-		else if (ft_strequ(s, "mandelbrot"))
-			GIMME(E_MANDEL);
+		else if (ft_strequ(s, "burning_ship"))
+			GIMME(E_BURNING);
 		else if (ft_strequ(s, "tricorn"))
 			GIMME(E_TRICORN);
+		else if (ft_strequ(s, "fish"))
+			GIMME(E_FISH);
 	}
-	ft_printf("usage: ./fractol [mandelbrot | julia | burning_ship | tricorn"\
-		"]\n");
+	ft_printf("usage: ./fractol [mandelbrot | julia | burning_ship | tricorn "\
+		"| fish]\n");
 	GIMME(E_VOID);
 }
 
@@ -69,7 +72,7 @@ int				output_data(t_info *f)
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " --- DATA ---");
 	ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", WIN_X * f->zoom / 100);
+	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", WIN_X * f->zoom / 10000);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 30, _WHITE, buff);
 	ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);

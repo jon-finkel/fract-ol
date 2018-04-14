@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 17:29:52 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/13 19:27:17 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,12 @@ static void	change_fractal(int key, t_info *f)
 		f->type = E_BURNING;
 	else if (key == X_KEY_3)
 		f->type = E_TRICORN;
+	else if (key == X_KEY_4)
+		f->type = E_FISH;
 }
 
 int			key(int key, t_info *f)
 {
-if (key == X_SCROLL_DOWN)
-f->zoom *= 0.9;				// FUCKING MOUSE
-else if (key == X_SCROLL_UP)
-f->zoom *= 1.1;
 	if (key == X_KEY_ESCAPE)
 		terminate(f);
 	else if (key == X_KEY_SPACE)
