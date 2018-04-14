@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 01:02:15 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/14 16:47:39 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/14 19:56:21 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ void	*buddhabrot(t_info *f)
 				z.i += z.i + z.ci;
 			}
 			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
-			if (it < f->it && it + 5 >= f->it)
-				for (int k = 0; k < it; k++)
+			if (it < f->it && it >= 50)
+				for (int k = 0; k < it; ++k)
 					ftx_buffpixel(f->mlx->img[0], b[k].x, b[k].y, c);
 		}
 	pthread_exit(NULL);
