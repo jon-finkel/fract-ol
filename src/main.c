@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/13 19:26:22 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/14 16:52:28 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static const struct s_fractal	g_fractal[E_VOID] =
 	{"Julia", julia},
 	{"Burning Ship", burning},
 	{"Tricorn", tricorn},
-	{"Fish", fish}
+	{"Fish", fish},
+	{"Buddhabrot", buddhabrot}
 };
 
 static t_type	get_args(int argc, const char *s)
@@ -37,9 +38,11 @@ static t_type	get_args(int argc, const char *s)
 			GIMME(E_TRICORN);
 		else if (ft_strequ(s, "fish"))
 			GIMME(E_FISH);
+		else if (ft_strequ(s, "buddhabrot"))
+			GIMME(E_BUDDHA);
 	}
 	ft_printf("usage: ./fractol [mandelbrot | julia | burning_ship | tricorn "\
-		"| fish]\n");
+		"| fish | buddhabrot]\n");
 	GIMME(E_VOID);
 }
 
