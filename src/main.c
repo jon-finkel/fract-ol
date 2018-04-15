@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 19:57:05 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 21:30:18 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 #define _PSY "PSYCH MODE ON!"
 #define _WHITE 0xffffff
 
+static const char				*g_usage =
+{
+	"usage: ./fractol [mandelbrot | julia | burning_ship | tricorn | fish | "\
+	"firebrot | galaxy | buddhabrot | tribuddha]"
+};
+
 static const struct s_fractal	g_fractal[E_VOID] =
 {
 	{"Mandelbrot", mandelbrot},
@@ -29,6 +35,7 @@ static const struct s_fractal	g_fractal[E_VOID] =
 	{"Tricorn", tricorn},
 	{"Fish", fish},
 	{"Firebrot", firebrot},
+	{"Galaxy", galaxy},
 	{"Buddhabrot", buddhabrot},
 	{"Tribuddha", tribuddha}
 };
@@ -49,13 +56,14 @@ static t_type	get_args(int argc, const char *s)
 			GIMME(E_FISH);
 		else if (ft_strequ(s, "firebrot"))
 			GIMME(E_FIREBROT);
+		else if (ft_strequ(s, "galaxy"))
+			GIMME(E_GALAXY);
 		else if (ft_strequ(s, "buddhabrot"))
 			GIMME(E_BUDDHA);
 		else if (ft_strequ(s, "tribuddha"))
 			GIMME(E_TRIBUDDHA);
 	}
-	ft_printf("usage: ./fractol [mandelbrot | julia | burning_ship | tricorn "\
-		"| fish | firebrot | buddhabrot | tribuddha]\n");
+	ft_printf("%s\n", g_usage);
 	GIMME(E_VOID);
 }
 

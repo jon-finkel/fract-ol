@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 19:54:59 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 21:57:29 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			button(int button, int x, int y, t_info *f)
 
 static void	key2(int key, t_info *f)
 {
-	if (key == X_KEY_O)
+	if (key == X_KEY_O && f->type == E_JULIA)
 		f->orbital = (f->orbital == true ? false : true);
 	if (key == X_KEY_P)
 		f->psych = (f->psych == true ? false : true);
@@ -50,7 +50,7 @@ int			key(int key, t_info *f)
 		terminate(f);
 	else if (key == X_KEY_SPACE)
 		reset_info(f);
-	else if (key == X_KEY_T && f->type == E_JULIA)
+	else if (key == X_KEY_T && (f->type == E_JULIA || f->type == E_GALAXY))
 		f->julia->lock = (f->julia->lock ? false : true);
 	else if (f->type < E_BUDDHA && key == X_KEY_W)
 		f->y_scale += 100 / f->zoom;
@@ -71,7 +71,8 @@ int			key(int key, t_info *f)
 
 int			motion(int x, int y, t_info *f)
 {
-	if (f->type == E_JULIA && f->julia->lock == false)
+	if ((f->type == E_JULIA || f->type == E_GALAXY) && f->julia->lock == false
+		&& f->orbital == false)
 	{
 		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
 		f->julia->cr = (x - WIN_X / 2) / f->zoom;
