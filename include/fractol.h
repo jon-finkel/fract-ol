@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 21:27:48 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 22:41:37 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum	e_type
 	E_TRICORN,
 	E_FISH,
 	E_FIREBROT,
+	E_MULTIBROT,
 	E_GALAXY,
 	E_BUDDHA,
 	E_TRIBUDDHA,
@@ -105,6 +106,7 @@ void			*fish(t_info *info);
 void			*galaxy(t_info *info);
 void			*julia(t_info *info);
 void			*mandelbrot(t_info *info);
+void			*multibrot(t_info *info);
 void			*tribuddha(t_info *info);
 void			*tricorn(t_info *info);
 

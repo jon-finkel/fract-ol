@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 21:30:18 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 22:40:12 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@
 
 static const char				*g_usage =
 {
-	"usage: ./fractol [mandelbrot | julia | burning_ship | tricorn | fish | "\
-	"firebrot | galaxy | buddhabrot | tribuddha]"
+	"usage: ./fractol [Mandelbrot | Julia | BurningShip | Tricorn | Fish | "\
+	"Firebrot | Galaxy | Buddhabrot | Tribuddha]"
 };
 
 static const struct s_fractal	g_fractal[E_VOID] =
 {
 	{"Mandelbrot", mandelbrot},
 	{"Julia", julia},
-	{"Burning Ship", burning},
+	{"BurningShip", burning},
 	{"Tricorn", tricorn},
 	{"Fish", fish},
 	{"Firebrot", firebrot},
+	{"Multibrot", multibrot},
 	{"Galaxy", galaxy},
 	{"Buddhabrot", buddhabrot},
 	{"Tribuddha", tribuddha}
@@ -42,27 +43,12 @@ static const struct s_fractal	g_fractal[E_VOID] =
 
 static t_type	get_args(int argc, const char *s)
 {
-	if (argc == 2)
-	{
-		if (ft_strequ(s, "mandelbrot"))
-			GIMME(E_MANDEL);
-		else if (ft_strequ(s, "julia"))
-			GIMME(E_JULIA);
-		else if (ft_strequ(s, "burning_ship"))
-			GIMME(E_BURNING);
-		else if (ft_strequ(s, "tricorn"))
-			GIMME(E_TRICORN);
-		else if (ft_strequ(s, "fish"))
-			GIMME(E_FISH);
-		else if (ft_strequ(s, "firebrot"))
-			GIMME(E_FIREBROT);
-		else if (ft_strequ(s, "galaxy"))
-			GIMME(E_GALAXY);
-		else if (ft_strequ(s, "buddhabrot"))
-			GIMME(E_BUDDHA);
-		else if (ft_strequ(s, "tribuddha"))
-			GIMME(E_TRIBUDDHA);
-	}
+	int		k;
+
+	if (argc == 2 && (k = -1))
+		while (++k < E_VOID)
+			if (ft_strequ(s, g_fractal[k].name))
+				GIMME(k);
 	ft_printf("%s\n", g_usage);
 	GIMME(E_VOID);
 }
