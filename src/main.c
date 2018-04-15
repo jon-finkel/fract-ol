@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/14 17:24:43 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 15:22:26 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int				output(t_info *f)
 	pthread_t	th[THREADS];
 	t_info		info[THREADS];
 
-	ftx_clearwin(f->mlx);
+	ftx_clearimg(f->mlx->img[0]);
+	ftx_clearwin(f->mlx, 0);
 	k = -1;
 	while (++k < THREADS)
 	{
@@ -75,10 +76,13 @@ int				output_data(t_info *f)
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " --- DATA ---");
 	ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
 	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", WIN_X * f->zoom / 10000);
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 30, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);
+	if (f->type != E_BUDDHA)
+	{
+		ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", WIN_X * f->zoom / 10000);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 30, _WHITE, buff);
+		ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);
+	}
 	KTHXBYE;
 }
 

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/14 16:11:45 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 15:39:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <pthread.h>
 
 # define THREADS (16)
-# define WIN_X (1920)
-# define WIN_Y (1200)
+# define WIN_X (1200)
+# define WIN_Y (800)
 
 # define _BLACK 0xff000000
 # define _WHITE 0xffffff

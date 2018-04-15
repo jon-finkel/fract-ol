@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/14 19:55:38 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 16:06:36 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 static void	reset_info(t_info *f)
 {
 	f->it = 100;
-	f->x_scale = -2.45;
+	f->x_scale = -2.85;
 	f->y_scale = -1.55;
 	f->r = 11;
 	f->g = 0;
-	f->b = 0;
-	f->zoom = 400.0;
+	f->b = 255;
+	f->zoom = 250.0;
 	f->julia->ci = -0.27015;
 	f->julia->cr = -0.715;
 	f->julia->lock = false;
@@ -37,20 +37,20 @@ int			button(int button, int x, int y, t_info *f)
 	GIMME(!output(f) && !output_data(f));
 }
 
-static void	change_fractal(int key, t_info *f)
+static void	change_color(int key, t_info *f)
 {
-	if (key == X_KEY_0)
-		f->type = E_MANDEL;
-	else if (key == X_KEY_1)
-		f->type = E_JULIA;
+	if (key == X_KEY_1)
+		f->r += 1;
 	else if (key == X_KEY_2)
-		f->type = E_BURNING;
+		f->r -= 1;
 	else if (key == X_KEY_3)
-		f->type = E_TRICORN;
+		f->g += 1;
 	else if (key == X_KEY_4)
-		f->type = E_FISH;
+		f->g -= 1;
 	else if (key == X_KEY_5)
-		f->type = E_BUDDHA;
+		f->b += 1;
+	else if (key == X_KEY_6)
+		f->b -= 1;
 }
 
 int			key(int key, t_info *f)
@@ -61,20 +61,24 @@ int			key(int key, t_info *f)
 		reset_info(f);
 	else if (key == X_KEY_T && f->type == E_JULIA)
 		f->julia->lock = (f->julia->lock ? false : true);
-	else if (key == X_KEY_W)
+	else if ((f->type == E_BUDDHA && key == X_KEY_A)
+		|| (f->type != E_BUDDHA && key == X_KEY_W))
 		f->y_scale += 100 / f->zoom;
-	else if (key == X_KEY_A)
+	else if ((f->type == E_BUDDHA && key == X_KEY_W)
+		|| (f->type != E_BUDDHA && key == X_KEY_A))
 		f->x_scale += 100 / f->zoom;
-	else if (key == X_KEY_S)
+	else if ((f->type == E_BUDDHA && key == X_KEY_D)
+		|| (f->type != E_BUDDHA && key == X_KEY_S))
 		f->y_scale -= 100 / f->zoom;
-	else if (key == X_KEY_D)
+	else if ((f->type == E_BUDDHA && key == X_KEY_S)
+		|| (f->type != E_BUDDHA && key == X_KEY_D))
 		f->x_scale -= 100 / f->zoom;
 	else if (key == X_KEY_MINUS)
 		f->it -= (f->it < 5 ? f->it : 5);
 	else if (key == X_KEY_EQUAL)
 		f->it += (f->it < 2000 ? 5 : 0);
 	else
-		change_fractal(key, f);
+		change_color(key, f);
 	GIMME(!output(f) && !output_data(f));
 }
 
