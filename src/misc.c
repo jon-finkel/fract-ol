@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 18:30:11 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 19:10:27 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	terminate(t_info *f)
 
 void	reset_info(t_info *f)
 {
+	f->orbital = false;
 	f->psych = false;
 	f->it = 100;
 	f->x_scale = -1.998;

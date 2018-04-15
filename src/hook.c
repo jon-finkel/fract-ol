@@ -6,11 +6,12 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 18:21:11 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 19:11:15 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#define _JULIA_RANGE 1.0
 
 int			button(int button, int x, int y, t_info *f)
 {
@@ -25,6 +26,8 @@ int			button(int button, int x, int y, t_info *f)
 
 static void	key2(int key, t_info *f)
 {
+	if (key == X_KEY_O)
+		f->orbital = (f->orbital == true ? false : true);
 	if (key == X_KEY_P)
 		f->psych = (f->psych == true ? false : true);
 	else if (key == X_KEY_1 || key == X_KEY_2)
@@ -72,7 +75,7 @@ int			key(int key, t_info *f)
 
 int			motion(int x, int y, t_info *f)
 {
-	if (f->type == E_JULIA && !f->julia->lock)
+	if (f->type == E_JULIA && f->julia->lock == false)
 	{
 		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
 		f->julia->cr = (x - WIN_X / 2) / f->zoom;
@@ -83,12 +86,25 @@ int			motion(int x, int y, t_info *f)
 
 int			psych(t_info *f)
 {
+	static bool	iclock = false;
+	static bool	rclock = true;
+
 	if (f->psych == true)
 	{
-		f->b += rand() % 5;
+		f->b += rand() % 10;
 		f->g += rand() % 5;
-		f->r += rand() % 5;
-		GIMME(!output(f) && !output_data(f));
+		f->r += rand() % 15;
 	}
+	if (f->type == E_JULIA && f->julia->lock == false && f->orbital == true)
+	{
+		if (f->julia->ci > _JULIA_RANGE || f->julia->ci < -_JULIA_RANGE)
+			iclock = (iclock == true ? false : true);
+		if (f->julia->cr > _JULIA_RANGE || f->julia->cr < -_JULIA_RANGE)
+			rclock = (rclock == true ? false : true);
+		f->julia->ci += (iclock == true ? 0.01 : -0.01);
+		f->julia->cr += (rclock == true ? 0.01 : -0.01);
+	}
+	if (f->psych == true || f->orbital == true)
+		GIMME(!output(f) && !output_data(f));
 	KTHXBYE;
 }

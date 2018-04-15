@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 18:20:22 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 19:10:10 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_julia
 
 typedef struct	s_info
 {
+	bool		orbital;
 	bool		psych;
 	double		x_scale;
 	double		y_scale;
