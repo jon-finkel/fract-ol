@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 15:39:55 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 18:20:22 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 # include <pthread.h>
 
 # define THREADS (16)
-# define WIN_X (1200)
-# define WIN_Y (800)
+# define WIN_X (1100)
+# define WIN_Y (1100)
 
 # define _BLACK 0xff000000
-# define _WHITE 0xffffff
 
 typedef enum	e_type
 {
@@ -58,6 +57,7 @@ typedef struct	s_julia
 
 typedef struct	s_info
 {
+	bool		psych;
 	double		x_scale;
 	double		y_scale;
 	double		zoom;
@@ -80,6 +80,7 @@ struct			s_fractal
 
 int				output(t_info *f);
 int				output_data(t_info *f);
+void			reset_info(t_info *f);
 void			terminate(t_info *f);
 
 /*
@@ -88,6 +89,7 @@ void			terminate(t_info *f);
 int				button(int button, int x, int y, t_info *f);
 int				key(int key, t_info *f);
 int				motion(int x, int y, t_info *f);
+int				psych(t_info *f);
 
 /*
 ** Fractals

@@ -6,17 +6,20 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 17:24:27 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 18:33:56 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#define WIN_TITLE "Fract'ol, a fractal explorer, by Jon Finkel"
 #define BUFF_SIZE (128)
+#define WIN_TITLE "Fract'ol, a fractal explorer, by Jon Finkel"
+#define _DATA " -- DATA -- "
 #define _P1 (f->type == E_BUDDHA ? 0 : 45)
 #define _P2 (f->type == E_BUDDHA ? 15 : 60)
 #define _P3 (f->type == E_BUDDHA ? 30 : 75)
 #define _P4 (f->type == E_BUDDHA ? 45 : 90)
+#define _PSY "PSYCH MODE ON!"
+#define _WHITE 0xffffff
 
 static const struct s_fractal	g_fractal[E_VOID] =
 {
@@ -77,7 +80,8 @@ int				output_data(t_info *f)
 {
 	char	buff[BUFF_SIZE];
 
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " -- DATA --");
+	if (f->type != E_BUDDHA || f->psych != true)
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, _DATA);
 	if (f->type != E_BUDDHA)
 	{
 		ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
@@ -87,12 +91,17 @@ int				output_data(t_info *f)
 		ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
 		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);
 	}
-	ft_snprintf(buff, BUFF_SIZE, " R: %hhu", f->r);
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P2, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " G: %hhu", f->g);
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P3, _WHITE, buff);
-	ft_snprintf(buff, BUFF_SIZE, " B: %hhu", f->b);
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P4, _WHITE, buff);
+	if (f->psych == false)
+	{
+		ft_snprintf(buff, BUFF_SIZE, " RED = %hhu", f->r);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P2, _WHITE, buff);
+		ft_snprintf(buff, BUFF_SIZE, " GRN = %hhu", f->g);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P3, _WHITE, buff);
+		ft_snprintf(buff, BUFF_SIZE, " BLU = %hhu", f->b);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P4, _WHITE, buff);
+	}
+	else
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 950, 0, rand(), _PSY);
 	KTHXBYE;
 }
 
@@ -112,6 +121,7 @@ int				main(int argc, const char *argv[])
 	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key, &f);
 	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, button, &f);
 	mlx_hook(f.mlx->win[0], X_MOTIONNOTIFY, X_POINTERMOTION_MASK, motion, &f);
+	mlx_loop_hook(f.mlx->mlx, psych, &f);
 	mlx_loop(f.mlx->mlx);
 	KTHXBYE;
 }

@@ -6,25 +6,11 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 17:22:35 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 18:21:11 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-static void	reset_info(t_info *f)
-{
-	f->it = 100;
-	f->x_scale = -2.85;
-	f->y_scale = -1.55;
-	f->r = 9;
-	f->g = 2;
-	f->b = 34;
-	f->zoom = 250.0;
-	f->julia->ci = -0.27015;
-	f->julia->cr = -0.715;
-	f->julia->lock = false;
-}
 
 int			button(int button, int x, int y, t_info *f)
 {
@@ -37,15 +23,17 @@ int			button(int button, int x, int y, t_info *f)
 	GIMME(!output(f) && !output_data(f));
 }
 
-static void	change_color(int key, t_info *f)
+static void	key2(int key, t_info *f)
 {
-	if (key == X_KEY_1 || key == X_KEY_2)
+	if (key == X_KEY_P)
+		f->psych = (f->psych == true ? false : true);
+	else if (key == X_KEY_1 || key == X_KEY_2)
 		f->r += (key == X_KEY_2 ? 1 : -1);
-	if (key == X_KEY_3 || key == X_KEY_4)
+	else if (key == X_KEY_3 || key == X_KEY_4)
 		f->g += (key == X_KEY_4 ? 1 : -1);
-	if (key == X_KEY_5 || key == X_KEY_6)
+	else if (key == X_KEY_5 || key == X_KEY_6)
 		f->b += (key == X_KEY_6 ? 1 : -1);
-	if (key == X_KEY_7 || key == X_KEY_8)
+	else if (key == X_KEY_7 || key == X_KEY_8)
 	{
 		f->r += (key == X_KEY_8 ? 1 : -1);
 		f->g += (key == X_KEY_8 ? 1 : -1);
@@ -78,7 +66,7 @@ int			key(int key, t_info *f)
 	else if (key == X_KEY_EQUAL)
 		f->it += (f->it < 2000 ? 5 : 0);
 	else
-		change_color(key, f);
+		key2(key, f);
 	GIMME(!output(f) && !output_data(f));
 }
 
@@ -88,6 +76,18 @@ int			motion(int x, int y, t_info *f)
 	{
 		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
 		f->julia->cr = (x - WIN_X / 2) / f->zoom;
+		GIMME(!output(f) && !output_data(f));
+	}
+	KTHXBYE;
+}
+
+int			psych(t_info *f)
+{
+	if (f->psych == true)
+	{
+		f->b += rand() % 5;
+		f->g += rand() % 5;
+		f->r += rand() % 5;
 		GIMME(!output(f) && !output_data(f));
 	}
 	KTHXBYE;

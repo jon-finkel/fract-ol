@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 01:02:15 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 14:13:06 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 18:35:17 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ void	*julia(t_info *f)
 				z.i = z.i * tmp;
 				z.i += z.i + f->julia->ci;
 			}
-			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
-			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
+			c = (it == f->it || it == 1 ? _BLACK\
+				: (it * f->r << 16) + (it * f->g << 8) + it * f->b);
+			ftx_buffpixel(f->mlx->img[0], f->x, y, c);
 		}
 	pthread_exit(NULL);
 }
@@ -59,8 +60,9 @@ void	*fish(t_info *f)
 				z.r = fabs(z.r * z.r - z.i * z.i) + z.cr;
 				z.i = 2 * z.i * tmp + z.ci;
 			}
-			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
-			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
+			c = (it == f->it || it == 1 ? _BLACK\
+				: (it * f->r << 16) + (it * f->g << 8) + it * f->b);
+			ftx_buffpixel(f->mlx->img[0], f->x, y, c);
 		}
 	pthread_exit(NULL);
 }
@@ -86,8 +88,9 @@ void	*tricorn(t_info *f)
 				z.r = z.r * z.r - z.i * z.i + z.cr;
 				z.i = -2 * z.i * tmp + z.ci;
 			}
-			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
-			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
+			c = (it == f->it || it == 1 ? _BLACK\
+				: (it * f->r << 16) + (it * f->g << 8) + it * f->b);
+			ftx_buffpixel(f->mlx->img[0], f->x, y, c);
 		}
 	pthread_exit(NULL);
 }
@@ -114,8 +117,9 @@ void	*burning(t_info *f)
 				z.i = fabs(z.i * tmp);
 				z.i += z.i + z.ci;
 			}
-			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
-			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
+			c = (it == f->it || it == 1 ? _BLACK\
+				: (it * f->r << 16) + (it * f->g << 8) + it * f->b);
+			ftx_buffpixel(f->mlx->img[0], f->x, y, c);
 		}
 	pthread_exit(NULL);
 }
@@ -142,8 +146,9 @@ void	*mandelbrot(t_info *f)
 				z.i = z.i * tmp;
 				z.i += z.i + z.ci;
 			}
-			c = (it * f->r << 16) + (it * f->g << 8) + it * f->b;
-			ftx_buffpixel(f->mlx->img[0], f->x, y, (it == f->it ? _BLACK : c));
+			c = (it == f->it || it == 1 ? _BLACK\
+				: (it * f->r << 16) + (it * f->g << 8) + it * f->b);
+			ftx_buffpixel(f->mlx->img[0], f->x, y, c);
 		}
 	pthread_exit(NULL);
 }
