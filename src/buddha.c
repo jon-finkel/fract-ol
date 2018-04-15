@@ -6,13 +6,13 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:13:32 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 16:06:15 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 17:21:41 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #define BUDDHA_IT 2000
-#define BUDDHA_THRESHOLD 500
+#define BUDDHA_THRESHOLD 200
 #define BUDDHA_X -1.85
 #define BUDDHA_Y -1.85
 #define BUDDHA_ZOOM 300.0
@@ -34,7 +34,7 @@ static void	draw_points(t_info *f, const t_buddha b[], uint16_t it)
 {
 	int	c;
 
-	c = (f->r * 10 << 16) + (f->g * 10 << 8) + f->b * 10;
+	c = (f->r * 5 << 16) + (f->g * 5 << 8) + f->b * 5;
 	if (it < BUDDHA_IT && it >= BUDDHA_THRESHOLD)
 		while (it--)
 			brighten_pixel(f->mlx->img[0], b[it].x, b[it].y, c);

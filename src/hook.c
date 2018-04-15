@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 16:06:36 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 17:22:35 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	reset_info(t_info *f)
 	f->it = 100;
 	f->x_scale = -2.85;
 	f->y_scale = -1.55;
-	f->r = 11;
-	f->g = 0;
-	f->b = 255;
+	f->r = 9;
+	f->g = 2;
+	f->b = 34;
 	f->zoom = 250.0;
 	f->julia->ci = -0.27015;
 	f->julia->cr = -0.715;
@@ -39,18 +39,18 @@ int			button(int button, int x, int y, t_info *f)
 
 static void	change_color(int key, t_info *f)
 {
-	if (key == X_KEY_1)
-		f->r += 1;
-	else if (key == X_KEY_2)
-		f->r -= 1;
-	else if (key == X_KEY_3)
-		f->g += 1;
-	else if (key == X_KEY_4)
-		f->g -= 1;
-	else if (key == X_KEY_5)
-		f->b += 1;
-	else if (key == X_KEY_6)
-		f->b -= 1;
+	if (key == X_KEY_1 || key == X_KEY_2)
+		f->r += (key == X_KEY_2 ? 1 : -1);
+	if (key == X_KEY_3 || key == X_KEY_4)
+		f->g += (key == X_KEY_4 ? 1 : -1);
+	if (key == X_KEY_5 || key == X_KEY_6)
+		f->b += (key == X_KEY_6 ? 1 : -1);
+	if (key == X_KEY_7 || key == X_KEY_8)
+	{
+		f->r += (key == X_KEY_8 ? 1 : -1);
+		f->g += (key == X_KEY_8 ? 1 : -1);
+		f->b += (key == X_KEY_8 ? 1 : -1);
+	}
 }
 
 int			key(int key, t_info *f)

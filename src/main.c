@@ -6,13 +6,17 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 15:22:26 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 17:24:27 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #define WIN_TITLE "Fract'ol, a fractal explorer, by Jon Finkel"
 #define BUFF_SIZE (128)
+#define _P1 (f->type == E_BUDDHA ? 0 : 45)
+#define _P2 (f->type == E_BUDDHA ? 15 : 60)
+#define _P3 (f->type == E_BUDDHA ? 30 : 75)
+#define _P4 (f->type == E_BUDDHA ? 45 : 90)
 
 static const struct s_fractal	g_fractal[E_VOID] =
 {
@@ -73,16 +77,22 @@ int				output_data(t_info *f)
 {
 	char	buff[BUFF_SIZE];
 
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " --- DATA ---");
-	ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
-	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
+	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, " -- DATA --");
 	if (f->type != E_BUDDHA)
 	{
+		ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
 		ft_snprintf(buff, BUFF_SIZE, " ZOOM: x%.f", WIN_X * f->zoom / 10000);
 		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 30, _WHITE, buff);
 		ft_snprintf(buff, BUFF_SIZE, " ITER: %hu", f->it);
 		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 45, _WHITE, buff);
 	}
+	ft_snprintf(buff, BUFF_SIZE, " R: %hhu", f->r);
+	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P2, _WHITE, buff);
+	ft_snprintf(buff, BUFF_SIZE, " G: %hhu", f->g);
+	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P3, _WHITE, buff);
+	ft_snprintf(buff, BUFF_SIZE, " B: %hhu", f->b);
+	mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, _P4, _WHITE, buff);
 	KTHXBYE;
 }
 
