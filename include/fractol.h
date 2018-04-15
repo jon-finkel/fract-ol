@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 19:10:10 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 19:53:17 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ typedef enum	e_type
 	E_BURNING,
 	E_TRICORN,
 	E_FISH,
+	E_FIREBROT,
 	E_BUDDHA,
+	E_TRIBUDDHA,
 	E_VOID
 }				t_type;
 
@@ -97,9 +99,11 @@ int				psych(t_info *f);
 */
 void			*burning(t_info *info);
 void			*buddhabrot(t_info *info);
+void			*firebrot(t_info *info);
 void			*fish(t_info *info);
 void			*julia(t_info *info);
 void			*mandelbrot(t_info *info);
+void			*tribuddha(t_info *info);
 void			*tricorn(t_info *info);
 
 #endif

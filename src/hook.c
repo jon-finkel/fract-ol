@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 19:11:15 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 19:54:59 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,13 @@ int			key(int key, t_info *f)
 		reset_info(f);
 	else if (key == X_KEY_T && f->type == E_JULIA)
 		f->julia->lock = (f->julia->lock ? false : true);
-	else if ((f->type == E_BUDDHA && key == X_KEY_A)
-		|| (f->type != E_BUDDHA && key == X_KEY_W))
+	else if (f->type < E_BUDDHA && key == X_KEY_W)
 		f->y_scale += 100 / f->zoom;
-	else if ((f->type == E_BUDDHA && key == X_KEY_W)
-		|| (f->type != E_BUDDHA && key == X_KEY_A))
+	else if (f->type < E_BUDDHA && key == X_KEY_A)
 		f->x_scale += 100 / f->zoom;
-	else if ((f->type == E_BUDDHA && key == X_KEY_D)
-		|| (f->type != E_BUDDHA && key == X_KEY_S))
+	else if (f->type < E_BUDDHA && key == X_KEY_S)
 		f->y_scale -= 100 / f->zoom;
-	else if ((f->type == E_BUDDHA && key == X_KEY_S)
-		|| (f->type != E_BUDDHA && key == X_KEY_D))
+	else if (f->type < E_BUDDHA && key == X_KEY_D)
 		f->x_scale -= 100 / f->zoom;
 	else if (key == X_KEY_MINUS)
 		f->it -= (f->it < 5 ? f->it : 5);

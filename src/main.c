@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 18:33:56 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/15 19:57:05 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #define BUFF_SIZE (128)
 #define WIN_TITLE "Fract'ol, a fractal explorer, by Jon Finkel"
 #define _DATA " -- DATA -- "
-#define _P1 (f->type == E_BUDDHA ? 0 : 45)
-#define _P2 (f->type == E_BUDDHA ? 15 : 60)
-#define _P3 (f->type == E_BUDDHA ? 30 : 75)
-#define _P4 (f->type == E_BUDDHA ? 45 : 90)
+#define _P1 (f->type >= E_BUDDHA ? 0 : 45)
+#define _P2 (f->type >= E_BUDDHA ? 15 : 60)
+#define _P3 (f->type >= E_BUDDHA ? 30 : 75)
+#define _P4 (f->type >= E_BUDDHA ? 45 : 90)
 #define _PSY "PSYCH MODE ON!"
 #define _WHITE 0xffffff
 
@@ -28,7 +28,9 @@ static const struct s_fractal	g_fractal[E_VOID] =
 	{"Burning Ship", burning},
 	{"Tricorn", tricorn},
 	{"Fish", fish},
-	{"Buddhabrot", buddhabrot}
+	{"Firebrot", firebrot},
+	{"Buddhabrot", buddhabrot},
+	{"Tribuddha", tribuddha}
 };
 
 static t_type	get_args(int argc, const char *s)
@@ -45,11 +47,15 @@ static t_type	get_args(int argc, const char *s)
 			GIMME(E_TRICORN);
 		else if (ft_strequ(s, "fish"))
 			GIMME(E_FISH);
+		else if (ft_strequ(s, "firebrot"))
+			GIMME(E_FIREBROT);
 		else if (ft_strequ(s, "buddhabrot"))
 			GIMME(E_BUDDHA);
+		else if (ft_strequ(s, "tribuddha"))
+			GIMME(E_TRIBUDDHA);
 	}
 	ft_printf("usage: ./fractol [mandelbrot | julia | burning_ship | tricorn "\
-		"| fish | buddhabrot]\n");
+		"| fish | firebrot | buddhabrot | tribuddha]\n");
 	GIMME(E_VOID);
 }
 
@@ -80,9 +86,9 @@ int				output_data(t_info *f)
 {
 	char	buff[BUFF_SIZE];
 
-	if (f->type != E_BUDDHA || f->psych != true)
+	if (f->type < E_BUDDHA || f->psych != true)
 		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 0, _WHITE, _DATA);
-	if (f->type != E_BUDDHA)
+	if (f->type < E_BUDDHA)
 	{
 		ft_snprintf(buff, BUFF_SIZE, " FRAC: %s", g_fractal[f->type].name);
 		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 15, _WHITE, buff);
