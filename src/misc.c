@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 21:50:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 17:04:26 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	reset_info(t_info *f)
 	f->it = (f->type == E_GALAXY ? 450 : 100);
 	f->x_scale = -1.998;
 	f->y_scale = -2.001999;
+	f->multi = 3;
 	f->r = (f->type == E_BUDDHA ? 9 : 11);
 	f->g = 2;
 	f->b = (f->type == E_BUDDHA ? 34 : 1);
@@ -32,4 +33,5 @@ void	reset_info(t_info *f)
 	f->julia->ci = -0.27015;
 	f->julia->cr = -0.715;
 	f->julia->lock = false;
+	f->galaxy_noise = 0;
 }

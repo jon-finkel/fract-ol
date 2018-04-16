@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 22:41:37 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 17:04:08 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,12 @@ typedef enum	e_type
 	E_FISH,
 	E_FIREBROT,
 	E_MULTIBROT,
+	E_MULTIJULIA,
 	E_GALAXY,
 	E_BUDDHA,
 	E_TRIBUDDHA,
 	E_VOID
 }				t_type;
-
-typedef struct	s_complex
-{
-	double		cr;
-	double		ci;
-	double		i;
-	double		r;
-}				t_complex;
 
 typedef struct	s_buddha
 {
@@ -68,13 +61,15 @@ typedef struct	s_info
 	double		zoom;
 	int			x;
 	int			x_max;
-	uint8_t		r;
-	uint8_t		g;
-	uint8_t		b;
 	t_julia		*julia;
 	t_mlx		*mlx;
 	t_type		type;
+	uint8_t		multi;
+	uint8_t		r;
+	uint8_t		g;
+	uint8_t		b;
 	uint16_t	it;
+	uint16_t	galaxy_noise;
 }				t_info;
 
 struct			s_fractal
@@ -107,6 +102,7 @@ void			*galaxy(t_info *info);
 void			*julia(t_info *info);
 void			*mandelbrot(t_info *info);
 void			*multibrot(t_info *info);
+void			*multijulia(t_info *info);
 void			*tribuddha(t_info *info);
 void			*tricorn(t_info *info);
 

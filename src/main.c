@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 22:40:12 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 17:17:10 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@
 #define _PSY "PSYCH MODE ON!"
 #define _WHITE 0xffffff
 
-static const char				*g_usage =
-{
-	"usage: ./fractol [Mandelbrot | Julia | BurningShip | Tricorn | Fish | "\
-	"Firebrot | Galaxy | Buddhabrot | Tribuddha]"
-};
-
 static const struct s_fractal	g_fractal[E_VOID] =
 {
 	{"Mandelbrot", mandelbrot},
@@ -36,6 +30,7 @@ static const struct s_fractal	g_fractal[E_VOID] =
 	{"Fish", fish},
 	{"Firebrot", firebrot},
 	{"Multibrot", multibrot},
+	{"Multijulia", multijulia},
 	{"Galaxy", galaxy},
 	{"Buddhabrot", buddhabrot},
 	{"Tribuddha", tribuddha}
@@ -49,7 +44,11 @@ static t_type	get_args(int argc, const char *s)
 		while (++k < E_VOID)
 			if (ft_strequ(s, g_fractal[k].name))
 				GIMME(k);
-	ft_printf("%s\n", g_usage);
+	ft_printf("usage: ./fractol <fractal>\n\nAvailable fractals:	- %s\n",\
+		g_fractal[0].name);
+	k = 0;
+	while (++k < E_VOID)
+		ft_printf("			- %s\n", g_fractal[k].name);
 	GIMME(E_VOID);
 }
 
@@ -102,6 +101,11 @@ int				output_data(t_info *f)
 	}
 	else
 		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 950, 0, rand(), _PSY);
+	if (f->type == E_GALAXY)
+	{
+		ft_snprintf(buff, BUFF_SIZE, " NOIS: %hu", f->galaxy_noise);
+		mlx_string_put(f->mlx->mlx, f->mlx->win[0], 0, 105, _WHITE, buff);
+	}
 	KTHXBYE;
 }
 
