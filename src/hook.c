@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 17:09:47 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 19:08:33 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			button(int button, int x, int y, t_info *f)
 
 static void	key2(int key, t_info *f)
 {
-	if (key == X_KEY_O && (f->type == E_JULIA || f->type == E_MULTIJULIA))
+	if (key == X_KEY_O && f->type == E_JULIA)
 		f->orbital = (f->orbital == true ? false : true);
 	if (key == X_KEY_P)
 		f->psych = (f->psych == true ? false : true);
@@ -42,10 +42,10 @@ static void	key2(int key, t_info *f)
 		f->g += (key == X_KEY_8 ? 1 : -1);
 		f->b += (key == X_KEY_8 ? 1 : -1);
 	}
-	else if (key == X_KEY_9 && f->galaxy_noise >= 2)
-		f->galaxy_noise -= 2;
-	else if (key == X_KEY_0 && f->galaxy_noise <= UINT16_MAX - 2)
-		f->galaxy_noise += 2;
+	else if (key == X_KEY_9 && f->noise >= 2)
+		f->noise -= 2;
+	else if (key == X_KEY_0 && f->noise <= UINT16_MAX - 2)
+		f->noise += 2;
 	else if (key == X_KEY_E && f->multi < UINT8_MAX)
 		++f->multi;
 	else if (key == X_KEY_Q && f->multi > 1)
@@ -58,9 +58,8 @@ int			key(int key, t_info *f)
 		terminate(f);
 	else if (key == X_KEY_SPACE)
 		reset_info(f);
-	else if (key == X_KEY_T && (f->type == E_JULIA || f->type == E_GALAXY
-		|| f->type == E_MULTIJULIA))
-		f->julia->lock = (f->julia->lock ? false : true);
+	else if (key == X_KEY_T && (f->type == E_JULIA || f->type == E_GALAXY))
+		f->lock = (f->lock ? false : true);
 	else if (f->type < E_BUDDHA && key == X_KEY_W)
 		f->y_scale += 100 / f->zoom;
 	else if (f->type < E_BUDDHA && key == X_KEY_A)
@@ -80,8 +79,8 @@ int			key(int key, t_info *f)
 
 int			motion(int x, int y, t_info *f)
 {
-	if ((f->type == E_JULIA || f->type == E_MULTIJULIA || f->type == E_GALAXY)
-		&& f->julia->lock == false && f->orbital == false)
+	if ((f->type == E_JULIA || f->type == E_GALAXY)
+		&& f->lock == false && f->orbital == false)
 	{
 		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
 		f->julia->cr = (x - WIN_X / 2) / f->zoom;
@@ -101,8 +100,7 @@ int			psych(t_info *f)
 		f->g += rand() % 5;
 		f->r += rand() % 15;
 	}
-	if ((f->type == E_JULIA || f->type == E_MULTIJULIA)
-		&& f->julia->lock == false && f->orbital == true)
+	if (f->type == E_JULIA && f->lock == false && f->orbital == true)
 	{
 		if (f->julia->ci > _JULIA_RANGE || f->julia->ci < -_JULIA_RANGE)
 			iclock = (iclock == true ? false : true);

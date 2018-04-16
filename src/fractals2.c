@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:13:32 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 15:55:50 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 18:56:33 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*firebrot(t_info *f)
 	pthread_exit(NULL);
 }
 
-void	*multibrot(t_info *f)
+void	*mandelbrot(t_info *f)
 {
 	double		y;
 	t_complex	c;
@@ -67,7 +67,7 @@ void	*multibrot(t_info *f)
 	pthread_exit(NULL);
 }
 
-void	*multijulia(t_info *f)
+void	*julia(t_info *f)
 {
 	double		y;
 	t_complex	z;

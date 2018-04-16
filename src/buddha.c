@@ -6,16 +6,13 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 17:05:41 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 19:20:32 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#define BUDDHA_IT 2000
-#define BUDDHA_THRESHOLD 200
 #define BUDDHA_X -1.85
 #define BUDDHA_Y -1.85
-#define BUDDHA_ZOOM 300.0
 
 static void	brighten_pixel(t_mlx_img *img, const int x, const int y, int color)
 {
@@ -35,10 +32,7 @@ static void	draw_points(t_info *f, const t_buddha b[], uint16_t it)
 	int	c;
 
 	c = (f->r * 5 << 16) + (f->g * 5 << 8) + f->b * 5;
-	if (f->type >= E_BUDDHA && it < BUDDHA_IT && it >= BUDDHA_THRESHOLD)
-		while (it--)
-			brighten_pixel(f->mlx->img[0], b[it].x, b[it].y, c);
-	else if (f->type == E_GALAXY && it < f->it && it >= f->galaxy_noise)
+	if (it < f->it && it >= f->noise)
 		while (it--)
 			brighten_pixel(f->mlx->img[0], b[it].x, b[it].y, c);
 }
@@ -74,7 +68,7 @@ void		*buddhabrot(t_info *f)
 {
 	double		tmp;
 	double		y;
-	t_buddha	b[BUDDHA_IT];
+	t_buddha	b[f->it];
 	t_complex	c;
 	t_complex	z;
 	uint16_t	it;
@@ -82,14 +76,14 @@ void		*buddhabrot(t_info *f)
 	while (++f->x < f->x_max && (y = -1))
 		while (++y < WIN_Y && (it = -1))
 		{
-			c.r = f->x / BUDDHA_ZOOM + BUDDHA_X;
-			c.i = y / BUDDHA_ZOOM + BUDDHA_Y;
+			c.r = f->x / f->zoom + BUDDHA_X;
+			c.i = y / f->zoom + BUDDHA_Y;
 			z.r = 0;
 			z.i = 0;
-			while (++it < BUDDHA_IT && z.r * z.r + z.i * z.i <= 4)
+			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (z.i - BUDDHA_Y) * BUDDHA_ZOOM;
-				b[it].y = (z.r - BUDDHA_X) * BUDDHA_ZOOM;
+				b[it].x = (z.i - BUDDHA_Y) * f->zoom;
+				b[it].y = (z.r - BUDDHA_X) * f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
 				z.i = z.i * tmp;
@@ -100,11 +94,11 @@ void		*buddhabrot(t_info *f)
 	pthread_exit(NULL);
 }
 
-void		*tribuddha(t_info *f)
+void		*triforce(t_info *f)
 {
 	double		tmp;
 	double		y;
-	t_buddha	b[BUDDHA_IT];
+	t_buddha	b[f->it];
 	t_complex	c;
 	t_complex	z;
 	uint16_t	it;
@@ -112,14 +106,14 @@ void		*tribuddha(t_info *f)
 	while (++f->x < f->x_max && (y = -1))
 		while (++y < WIN_Y && (it = -1))
 		{
-			c.r = f->x / BUDDHA_ZOOM + BUDDHA_X;
-			c.i = y / BUDDHA_ZOOM + BUDDHA_Y;
+			c.r = f->x / f->zoom + BUDDHA_X;
+			c.i = y / f->zoom + BUDDHA_Y;
 			z.r = 0;
 			z.i = 0;
-			while (++it < BUDDHA_IT && z.r * z.r + z.i * z.i <= 4)
+			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (z.i - BUDDHA_Y) * BUDDHA_ZOOM;
-				b[it].y = (z.r - BUDDHA_X) * BUDDHA_ZOOM;
+				b[it].x = (z.i - BUDDHA_Y) * f->zoom;
+				b[it].y = (z.r - BUDDHA_X) * f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
 				z.i = -2 * z.i * tmp + c.i;
