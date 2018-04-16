@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 19:20:22 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 23:24:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct	s_info
 	double		zoom;
 	int			x;
 	int			x_max;
+	int			y;
+	int			y_max;
 	t_julia		*julia;
 	t_mlx		*mlx;
 	t_type		type;
@@ -79,6 +81,7 @@ struct			s_fractal
 int				output(t_info *f);
 int				output_data(t_info *f);
 void			reset_info(t_info *f);
+t_info			thumb_info(t_info *f, const int8_t k);
 void			terminate(t_info *f);
 
 /*

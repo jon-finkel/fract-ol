@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 19:20:32 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 22:28:14 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void		*galaxy(t_info *f)
 	t_complex	z;
 	uint16_t	it;
 
-	while (++f->x < f->x_max && (y = -1))
-		while (++y < WIN_Y && (it = -1))
+	while (++f->x < f->x_max && (y = f->y))
+		while (++y < f->y_max && (it = -1))
 		{
 			z.r = f->x / f->zoom + f->x_scale;
 			z.i = y / f->zoom + f->y_scale;
@@ -73,8 +73,8 @@ void		*buddhabrot(t_info *f)
 	t_complex	z;
 	uint16_t	it;
 
-	while (++f->x < f->x_max && (y = -1))
-		while (++y < WIN_Y && (it = -1))
+	while (++f->x < f->x_max && (y = f->y))
+		while (++y < f->y_max && (it = -1))
 		{
 			c.r = f->x / f->zoom + BUDDHA_X;
 			c.i = y / f->zoom + BUDDHA_Y;
@@ -103,8 +103,8 @@ void		*triforce(t_info *f)
 	t_complex	z;
 	uint16_t	it;
 
-	while (++f->x < f->x_max && (y = -1))
-		while (++y < WIN_Y && (it = -1))
+	while (++f->x < f->x_max && (y = f->y))
+		while (++y < f->y_max && (it = -1))
 		{
 			c.r = f->x / f->zoom + BUDDHA_X;
 			c.i = y / f->zoom + BUDDHA_Y;

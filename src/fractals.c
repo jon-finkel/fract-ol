@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 01:02:15 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 18:56:48 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 22:27:31 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	*fish(t_info *f)
 	t_complex	z;
 	uint16_t	it;
 
-	while (++f->x < f->x_max && (y = -1))
-		while (++y < WIN_Y && (it = -1))
+	while (++f->x < f->x_max && (y = f->y))
+		while (++y < f->y_max && (it = -1))
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;
@@ -47,8 +47,8 @@ void	*tricorn(t_info *f)
 	t_complex	z;
 	uint16_t	it;
 
-	while (++f->x < f->x_max && (y = -1))
-		while (++y < WIN_Y && (it = -1))
+	while (++f->x < f->x_max && (y = f->y))
+		while (++y < f->y_max && (it = -1))
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;
@@ -74,8 +74,8 @@ void	*burning(t_info *f)
 	t_complex	z;
 	uint16_t	it;
 
-	while (++f->x < f->x_max && (y = -1))
-		while (++y < WIN_Y && (it = -1))
+	while (++f->x < f->x_max && (y = f->y))
+		while (++y < f->y_max && (it = -1))
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;

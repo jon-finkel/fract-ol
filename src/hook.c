@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 19:08:33 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 23:29:52 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 int			button(int button, int x, int y, t_info *f)
 {
-	(void)x;
-	(void)y;
+(void)x;
+(void)y;
 	if (button == X_SCROLL_DOWN)
 		f->zoom *= 0.9;
 	else if (button == X_SCROLL_UP)
 		f->zoom *= 1.1;
+ft_printf("%f\n", f->zoom);
 	GIMME(!output(f) && !output_data(f));
 }
 
@@ -42,10 +43,10 @@ static void	key2(int key, t_info *f)
 		f->g += (key == X_KEY_8 ? 1 : -1);
 		f->b += (key == X_KEY_8 ? 1 : -1);
 	}
-	else if (key == X_KEY_9 && f->noise >= 2)
-		f->noise -= 2;
-	else if (key == X_KEY_0 && f->noise <= UINT16_MAX - 2)
+	else if (key == X_KEY_9 && f->noise <= UINT16_MAX - 2)
 		f->noise += 2;
+	else if (key == X_KEY_0 && f->noise > 2)
+		f->noise -= 2;
 	else if (key == X_KEY_E && f->multi < UINT8_MAX)
 		++f->multi;
 	else if (key == X_KEY_Q && f->multi > 1)
@@ -74,6 +75,7 @@ int			key(int key, t_info *f)
 		f->it += (f->it < 2000 ? 5 : 0);
 	else
 		key2(key, f);
+ft_printf("%f, %f\n", f->x_scale, f->y_scale);
 	GIMME(!output(f) && !output_data(f));
 }
 
