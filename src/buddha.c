@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/15 22:03:01 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/16 05:41:31 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define BUDDHA_X -1.85
 #define BUDDHA_Y -1.85
 #define BUDDHA_ZOOM 300.0
-#define GALAXY_THRESHOLD 200
+#define GALAXY_THRESHOLD 0
 
 static void	brighten_pixel(t_mlx_img *img, const int x, const int y, int color)
 {
@@ -39,7 +39,7 @@ static void	draw_points(t_info *f, const t_buddha b[], uint16_t it)
 	if (f->type >= E_BUDDHA && it < BUDDHA_IT && it >= BUDDHA_THRESHOLD)
 		while (it--)
 			brighten_pixel(f->mlx->img[0], b[it].x, b[it].y, c);
-	else if (it < f->it && it >= GALAXY_THRESHOLD)
+	else if (f->type < E_BUDDHA && it < f->it && it >= GALAXY_THRESHOLD)
 		while (it--)
 			brighten_pixel(f->mlx->img[0], b[it].x, b[it].y, c);
 }
