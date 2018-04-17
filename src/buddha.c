@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 22:28:14 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 10:44:18 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	draw_points(t_info *f, const t_buddha b[], uint16_t it)
 	c = (f->r * 5 << 16) + (f->g * 5 << 8) + f->b * 5;
 	if (it < f->it && it >= f->noise)
 		while (it--)
-			brighten_pixel(f->mlx->img[0], b[it].x, b[it].y, c);
+			brighten_pixel(_DATA_MLX_IMG(f), b[it].x, b[it].y, c);
 }
 
 void		*galaxy(t_info *f)

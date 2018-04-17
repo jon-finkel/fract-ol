@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 23:26:41 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 15:09:24 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,24 @@ static t_type	get_args(int argc, const char *s)
 	GIMME(E_VOID);
 }
 
-int				output_thumbnails(t_info *f)
+static int		output_thumbnails(t_info *f)
 {
 	int8_t		k;
-	int8_t		thumbnail;
 	pthread_t	th[THREADS];
 	t_info		info[THREADS];
 
+	ftx_setimg(f->mlx, 1);
+	ftx_clearimg(f->mlx->img[1]);
 	k = -1;
-	thumbnail = 0;
 	while (++k < THREADS)
 	{
-		if ((int8_t)f->type == thumbnail)
-			++thumbnail;
 		info[k] = thumb_info(f, k);
-		pthread_create(th + k, NULL, (void *(*)(void *))g_fractal[thumbnail].f,\
-			info + k);
-		if (k % 2)
-			++thumbnail;
+		pthread_create(th + k, NULL,\
+			(void *(*)(void *))g_fractal[f->thumbnails[k / 2]].f, info + k);
 	}
 	while (k--)
 		pthread_join(th[k], NULL);
-	ftx_showimg(f->mlx, 0, 0);
+	ftx_showimg(f->mlx, WIN_X, 0);
 	KTHXBYE;
 }
 
@@ -77,8 +73,9 @@ int				output(t_info *f)
 	pthread_t	th[THREADS];
 	t_info		info[THREADS];
 
-	ftx_clearimg(f->mlx->img[0]);
+	ftx_setimg(f->mlx, 0);
 	ftx_clearwin(f->mlx, 0);
+	ftx_clearimg(f->mlx->img[0]);
 	k = -1;
 	while (++k < THREADS)
 	{
@@ -92,6 +89,7 @@ int				output(t_info *f)
 	}
 	while (k--)
 		pthread_join(th[k], NULL);
+	ftx_showimg(f->mlx, 0, 0);
 	GIMME(output_thumbnails(f));
 }
 
@@ -129,13 +127,16 @@ int				main(int argc, const char *argv[])
 	t_info	f;
 	t_julia	julia;
 	t_mlx	mlx_stack;
+	t_type	thumbnails[8];
 
 	if ((f.type = get_args(argc, argv[1])) == E_VOID)
 		KTHXBYE;
 	f.mlx = ftx_init(&mlx_stack);
 	f.julia = &julia;
 	ftx_winctor(f.mlx, WIN_X + (WIN_X / 2), WIN_Y, WIN_TITLE);
-	ftx_imgctor(f.mlx, WIN_X + (WIN_X / 2), WIN_Y);
+	ftx_imgctor(f.mlx, WIN_X, WIN_Y);
+	ftx_imgctor(f.mlx, WIN_X / 2, WIN_Y);
+	f.thumbnails = map_thumbnails(thumbnails, f.type);
 	key(X_KEY_SPACE, &f);
 	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key, &f);
 	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, button, &f);

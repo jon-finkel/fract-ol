@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 23:24:55 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 15:17:49 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ typedef enum	e_type
 	E_VOID
 }				t_type;
 
+typedef struct	s_thumbnails
+{
+	int			x_begin;
+	int			x_end;
+	int			y_begin;
+	int			y_end;
+	int8_t		index;
+}				t_thumbnails;
+
 typedef struct	s_buddha
 {
 	double		x;
@@ -64,6 +73,7 @@ typedef struct	s_info
 	t_julia		*julia;
 	t_mlx		*mlx;
 	t_type		type;
+	t_type		*thumbnails;
 	uint8_t		multi;
 	uint8_t		r;
 	uint8_t		g;
@@ -78,6 +88,7 @@ struct			s_fractal
 	void		*(*f)(t_info *);
 };
 
+t_type			*map_thumbnails(t_type *thumbnails, t_type current);
 int				output(t_info *f);
 int				output_data(t_info *f);
 void			reset_info(t_info *f);

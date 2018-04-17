@@ -6,28 +6,53 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/16 23:29:52 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 15:19:50 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #define _JULIA_RANGE 1.0
 
+static const t_thumbnails	g_thumbnails[8]=
+{
+	{0, WIN_X / 4, 0, WIN_Y / 4, 0},
+	{WIN_X / 4, WIN_X / 2, 0, WIN_Y / 4, 1},
+	{0, WIN_X / 4, WIN_Y / 4, WIN_Y / 2, 2},
+	{WIN_X / 4, WIN_X / 2, WIN_Y / 4, WIN_Y / 2, 3},
+	{0, WIN_X / 4, WIN_Y / 2, WIN_Y * 3 / 4, 4},
+	{WIN_X / 4, WIN_X / 2, WIN_Y / 2, WIN_Y * 3 / 4, 5},
+	{0, WIN_X / 4, WIN_Y * 3 /4, WIN_Y, 6},
+	{WIN_X / 4, WIN_X / 2, WIN_Y * 3 / 4, WIN_Y, 7}
+};
+
 int			button(int button, int x, int y, t_info *f)
 {
-(void)x;
-(void)y;
+	int		k;
+	t_type	tmp;
+
 	if (button == X_SCROLL_DOWN)
 		f->zoom *= 0.9;
 	else if (button == X_SCROLL_UP)
 		f->zoom *= 1.1;
-ft_printf("%f\n", f->zoom);
+	else if (button == 1)
+	{
+		x -= WIN_X;
+		k = -1;
+		while (++k < 8)
+			if (x >= g_thumbnails[k].x_begin && x < g_thumbnails[k].x_end
+				&& y >= g_thumbnails[k].y_begin && y < g_thumbnails[k].y_end)
+			{
+				tmp = f->type;
+				f->type = f->thumbnails[g_thumbnails[k].index];
+				f->thumbnails[k] = tmp;
+			}
+	}
 	GIMME(!output(f) && !output_data(f));
 }
 
 static void	key2(int key, t_info *f)
 {
-	if (key == X_KEY_O && f->type == E_JULIA)
+	if (key == X_KEY_O)
 		f->orbital = (f->orbital == true ? false : true);
 	if (key == X_KEY_P)
 		f->psych = (f->psych == true ? false : true);
@@ -75,13 +100,13 @@ int			key(int key, t_info *f)
 		f->it += (f->it < 2000 ? 5 : 0);
 	else
 		key2(key, f);
-ft_printf("%f, %f\n", f->x_scale, f->y_scale);
 	GIMME(!output(f) && !output_data(f));
 }
 
 int			motion(int x, int y, t_info *f)
 {
 	if ((f->type == E_JULIA || f->type == E_GALAXY)
+		&& x >= 0 && x <= WIN_X && y >= 0 && y <= WIN_Y
 		&& f->lock == false && f->orbital == false)
 	{
 		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
@@ -102,14 +127,14 @@ int			psych(t_info *f)
 		f->g += rand() % 5;
 		f->r += rand() % 15;
 	}
-	if (f->type == E_JULIA && f->lock == false && f->orbital == true)
+	if (f->lock == false && f->orbital == true)
 	{
 		if (f->julia->ci > _JULIA_RANGE || f->julia->ci < -_JULIA_RANGE)
 			iclock = (iclock == true ? false : true);
 		if (f->julia->cr > _JULIA_RANGE || f->julia->cr < -_JULIA_RANGE)
 			rclock = (rclock == true ? false : true);
-		f->julia->ci += (iclock == true ? 0.01 : -0.01);
-		f->julia->cr += (rclock == true ? 0.01 : -0.01);
+		f->julia->ci += (iclock == true ? 0.02 : -0.02);
+		f->julia->cr += (rclock == true ? 0.02 : -0.02);
 	}
 	if (f->psych == true || f->orbital == true)
 		GIMME(!output(f) && !output_data(f));
