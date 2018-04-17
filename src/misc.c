@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 19:29:28 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:31:42 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void		reset_info(t_info *f)
 	f->r = (f->type == E_BUDDHA ? 9 : 11);
 	f->g = 2;
 	f->b = (f->type == E_BUDDHA ? 34 : 1);
-	f->zoom = (f->type >= E_BUDDHA ? 300.0 : 250.0);
+	f->zoom = (f->type >= E_BUDDHA ? 300.0 : 270.0);
 	f->julia->i = -0.27015;
 	f->julia->r = -0.715;
 	f->noise = (f->type == E_BUDDHA ? 200 : 6);
