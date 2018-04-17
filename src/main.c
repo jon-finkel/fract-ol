@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 19:27:00 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 20:03:17 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,18 @@ static t_type	get_args(int argc, const char *s)
 	GIMME(E_VOID);
 }
 
-static int		output_thumbnails(t_info *f)
+static int		output_thumbnails(t_info *f, bool refresh_thumb)
 {
 	int8_t		k;
 	pthread_t	th[THREADS / 2];
 	t_info		info[THREADS / 2];
 
 	ftx_setimg(f->mlx, 1);
+	if (refresh_thumb == false)
+	{
+		ftx_showimg(f->mlx, WIN_X, 0);
+		KTHXBYE;
+	}
 	ftx_clearimg(f->mlx->img[1]);
 	f->thumb_noise = true;
 	k = -1;
@@ -69,7 +74,7 @@ static int		output_thumbnails(t_info *f)
 	KTHXBYE;
 }
 
-int				output(t_info *f)
+int				output(t_info *f, bool refresh_thumb)
 {
 	int8_t		k;
 	pthread_t	th[THREADS];
@@ -92,7 +97,7 @@ int				output(t_info *f)
 	while (k--)
 		pthread_join(th[k], NULL);
 	ftx_showimg(f->mlx, 0, 0);
-	GIMME(output_thumbnails(f));
+	GIMME(output_thumbnails(f, refresh_thumb));
 }
 
 int				output_data(t_info *f)

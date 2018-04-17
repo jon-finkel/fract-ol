@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 18:24:53 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 20:04:21 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int			button(int button, int x, int y, t_info *f)
 				f->type = f->thumbnails[g_thumbnails[k].index];
 				f->thumbnails[k] = tmp;
 			}
+		GIMME(!output(f, true) && !output_data(f));
 	}
-	GIMME(!output(f) && !output_data(f));
+	GIMME(!output(f, false) && !output_data(f));
 }
 
 static void	key2(int key, t_info *f)
@@ -81,7 +82,10 @@ static void	key2(int key, t_info *f)
 int			key(int key, t_info *f)
 {
 	if (key == X_KEY_ESCAPE)
-		terminate(f);
+	{
+		ftx_mlxdtor(f->mlx);
+		exit(EXIT_SUCCESS);
+	}
 	else if (key == X_KEY_SPACE)
 		reset_info(f);
 	else if (key == X_KEY_T && (f->type == E_JULIA || f->type == E_GALAXY))
@@ -100,7 +104,7 @@ int			key(int key, t_info *f)
 		f->it += (f->it < 2000 ? 5 : 0);
 	else
 		key2(key, f);
-	GIMME(!output(f) && !output_data(f));
+	GIMME(!output(f, (key == X_KEY_SPACE ? true : false)) && !output_data(f));
 }
 
 int			motion(int x, int y, t_info *f)
@@ -111,7 +115,7 @@ int			motion(int x, int y, t_info *f)
 	{
 		f->julia->i = (y - WIN_Y / 2) / f->zoom;
 		f->julia->r = (x - WIN_X / 2) / f->zoom;
-		GIMME(!output(f) && !output_data(f));
+		GIMME(!output(f, false) && !output_data(f));
 	}
 	KTHXBYE;
 }
@@ -137,6 +141,6 @@ int			psych(t_info *f)
 		f->julia->r += (rclock == true ? 0.02 : -0.02);
 	}
 	if (f->psych == true || f->orbital == true)
-		GIMME(!output(f) && !output_data(f));
+		GIMME(!output(f, false) && !output_data(f));
 	KTHXBYE;
 }

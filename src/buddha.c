@@ -6,13 +6,11 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 19:29:39 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:45:16 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#define BUDDHA_X -1.85
-#define BUDDHA_Y -1.85
 
 static void	brighten_pixel(t_mlx_img *img, const int x, const int y, int color)
 {
@@ -83,14 +81,14 @@ void		*buddhabrot(t_info *f)
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			c.r = f->x / f->zoom + BUDDHA_X;
-			c.i = y / f->zoom + BUDDHA_Y;
+			c.r = f->x / f->zoom + f->x_scale;
+			c.i = y / f->zoom + f->y_scale;
 			z.r = 0;
 			z.i = 0;
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (z.i - BUDDHA_Y) * f->zoom;
-				b[it].y = (z.r - BUDDHA_X) * f->zoom;
+				b[it].x = (z.i - f->y_scale) * f->zoom;
+				b[it].y = (z.r - f->x_scale) * f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
 				z.i = z.i * tmp;
@@ -113,14 +111,14 @@ void		*triforce(t_info *f)
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			c.r = f->x / f->zoom + BUDDHA_X;
-			c.i = y / f->zoom + BUDDHA_Y;
+			c.r = f->x / f->zoom + f->x_scale;
+			c.i = y / f->zoom + f->y_scale;
 			z.r = 0;
 			z.i = 0;
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (z.i - BUDDHA_Y) * f->zoom;
-				b[it].y = (z.r - BUDDHA_X) * f->zoom;
+				b[it].x = (z.i - f->y_scale) * f->zoom;
+				b[it].y = (z.r - f->x_scale) * f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
 				z.i = -2 * z.i * tmp + c.i;

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 19:31:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:46:21 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,23 @@ static const int	g_ythumb[5] =
 	WIN_Y
 };
 
-static void	get_position(t_info *info, const int8_t k)
+static void	inv_pos(t_info *info, const int8_t k)
+{
+	if (k % 2 == 0)
+		info->x_scale = -1.998 * WIN_X / 1100.0;
+	else
+		info->x_scale = -5.998 * WIN_X / 1100.0;
+	if (k >= 0 && k <= 1)
+		info->y_scale = -2.001999 * WIN_Y / 1100.0;
+	else if (k >= 2 && k <= 3)
+		info->y_scale = -6.001999 * WIN_Y / 1100.0;
+	else if (k >= 4 && k <= 5)
+		info->y_scale = -10.001999 * WIN_Y / 1100.0;
+	else if (k >= 6 && k <= 7)
+		info->y_scale = -14.001999 * WIN_Y / 1100.0;
+}
+
+static void	reg_pos(t_info *info, const int8_t k)
 {
 	if (k % 2 == 0)
 		info->x_scale = -1.998 * WIN_X / 1100.0;
@@ -68,7 +84,7 @@ t_info		thumb_info(t_info *f, const int8_t k)
 		info.noise = 6;
 		info.zoom = 82.2;
 	}
-	get_position(&info, k);
+		f->thumbnails[k] < E_BUDDHA ? reg_pos(&info, k) : inv_pos(&info, k);
 	GIMME(info);
 }
 
@@ -86,12 +102,6 @@ t_type		*map_thumbnails(t_type *thumbnails, t_type current)
 		thumbnails[k] = type++;
 	}
 	GIMME(thumbnails);
-}
-
-void		terminate(t_info *f)
-{
-	ftx_mlxdtor(f->mlx);
-	exit(EXIT_SUCCESS);
 }
 
 void		reset_info(t_info *f)

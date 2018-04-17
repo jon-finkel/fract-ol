@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 19:07:00 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 20:03:03 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,10 @@ struct			s_fractal
 };
 
 t_type			*map_thumbnails(t_type *thumbnails, t_type current);
-int				output(t_info *f);
+int				output(t_info *f, bool refresh_thumb);
 int				output_data(t_info *f);
 void			reset_info(t_info *f);
 t_info			thumb_info(t_info *f, const int8_t k);
-void			terminate(t_info *f);
 
 /*
 ** Events
