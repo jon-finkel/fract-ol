@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 10:44:18 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:29:39 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,15 @@ static void	draw_points(t_info *f, const t_buddha b[], uint16_t it)
 
 	c = (f->r * 5 << 16) + (f->g * 5 << 8) + f->b * 5;
 	if (it < f->it && it >= f->noise)
-		while (it--)
-			brighten_pixel(_DATA_MLX_IMG(f), b[it].x, b[it].y, c);
+	{
+		if (f->thumb_noise == false)
+			while (it--)
+				brighten_pixel(_DATA_MLX_IMG(f), b[it].x, b[it].y, c);
+		else
+			while (it--)
+				if (b[it].x <= f->x_max && b[it].y <= f->y_max)
+					brighten_pixel(_DATA_MLX_IMG(f), b[it].x, b[it].y, c);
+	}
 }
 
 void		*galaxy(t_info *f)
@@ -55,9 +62,9 @@ void		*galaxy(t_info *f)
 				b[it].x = (z.r - f->x_scale) * f->zoom;
 				b[it].y = (z.i - f->y_scale) * f->zoom;
 				tmp = z.r;
-				z.r = z.r * z.r - z.i * z.i + f->julia->cr;
+				z.r = z.r * z.r - z.i * z.i + f->julia->r;
 				z.i = z.i * tmp;
-				z.i += z.i + f->julia->ci;
+				z.i += z.i + f->julia->i;
 			}
 			draw_points(f, b, it);
 		}
@@ -122,4 +129,3 @@ void		*triforce(t_info *f)
 		}
 	pthread_exit(NULL);
 }
-

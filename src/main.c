@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 15:09:24 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:27:00 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,22 @@ static t_type	get_args(int argc, const char *s)
 static int		output_thumbnails(t_info *f)
 {
 	int8_t		k;
-	pthread_t	th[THREADS];
-	t_info		info[THREADS];
+	pthread_t	th[THREADS / 2];
+	t_info		info[THREADS / 2];
 
 	ftx_setimg(f->mlx, 1);
 	ftx_clearimg(f->mlx->img[1]);
+	f->thumb_noise = true;
 	k = -1;
-	while (++k < THREADS)
+	while (++k < THREADS / 2)
 	{
 		info[k] = thumb_info(f, k);
 		pthread_create(th + k, NULL,\
-			(void *(*)(void *))g_fractal[f->thumbnails[k / 2]].f, info + k);
+			(void *(*)(void *))g_fractal[f->thumbnails[k]].f, info + k);
 	}
 	while (k--)
 		pthread_join(th[k], NULL);
+	f->thumb_noise = false;
 	ftx_showimg(f->mlx, WIN_X, 0);
 	KTHXBYE;
 }
@@ -82,7 +84,7 @@ int				output(t_info *f)
 		info[k] = *f;
 		info[k].x = ((WIN_X / THREADS) * k) - 1;
 		info[k].y = -1;
-		info[k].x_max = (WIN_X / THREADS) * (k + 1) + 1;
+		info[k].x_max = (WIN_X / THREADS) * (k + 1);
 		info[k].y_max = WIN_Y;
 		pthread_create(th + k, NULL, (void *(*)(void *))g_fractal[f->type].f,\
 			info + k);
@@ -124,10 +126,10 @@ int				output_data(t_info *f)
 
 int				main(int argc, const char *argv[])
 {
-	t_info	f;
-	t_julia	julia;
-	t_mlx	mlx_stack;
-	t_type	thumbnails[8];
+	t_complex	julia;
+	t_info		f;
+	t_mlx		mlx_stack;
+	t_type		thumbnails[8];
 
 	if ((f.type = get_args(argc, argv[1])) == E_VOID)
 		KTHXBYE;

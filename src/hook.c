@@ -6,14 +6,14 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 15:19:50 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 18:24:53 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #define _JULIA_RANGE 1.0
 
-static const t_thumbnails	g_thumbnails[8]=
+static const t_thumbnails	g_thumbnails[8] =
 {
 	{0, WIN_X / 4, 0, WIN_Y / 4, 0},
 	{WIN_X / 4, WIN_X / 2, 0, WIN_Y / 4, 1},
@@ -21,7 +21,7 @@ static const t_thumbnails	g_thumbnails[8]=
 	{WIN_X / 4, WIN_X / 2, WIN_Y / 4, WIN_Y / 2, 3},
 	{0, WIN_X / 4, WIN_Y / 2, WIN_Y * 3 / 4, 4},
 	{WIN_X / 4, WIN_X / 2, WIN_Y / 2, WIN_Y * 3 / 4, 5},
-	{0, WIN_X / 4, WIN_Y * 3 /4, WIN_Y, 6},
+	{0, WIN_X / 4, WIN_Y * 3 / 4, WIN_Y, 6},
 	{WIN_X / 4, WIN_X / 2, WIN_Y * 3 / 4, WIN_Y, 7}
 };
 
@@ -68,9 +68,9 @@ static void	key2(int key, t_info *f)
 		f->g += (key == X_KEY_8 ? 1 : -1);
 		f->b += (key == X_KEY_8 ? 1 : -1);
 	}
-	else if (key == X_KEY_9 && f->noise <= UINT16_MAX - 2)
+	else if (key == X_KEY_9 && f->type >= E_GALAXY && f->noise < UINT16_MAX - 2)
 		f->noise += 2;
-	else if (key == X_KEY_0 && f->noise > 2)
+	else if (key == X_KEY_0 && f->type >= E_GALAXY && f->noise > 2)
 		f->noise -= 2;
 	else if (key == X_KEY_E && f->multi < UINT8_MAX)
 		++f->multi;
@@ -109,8 +109,8 @@ int			motion(int x, int y, t_info *f)
 		&& x >= 0 && x <= WIN_X && y >= 0 && y <= WIN_Y
 		&& f->lock == false && f->orbital == false)
 	{
-		f->julia->ci = (y - WIN_Y / 2) / f->zoom;
-		f->julia->cr = (x - WIN_X / 2) / f->zoom;
+		f->julia->i = (y - WIN_Y / 2) / f->zoom;
+		f->julia->r = (x - WIN_X / 2) / f->zoom;
 		GIMME(!output(f) && !output_data(f));
 	}
 	KTHXBYE;
@@ -129,12 +129,12 @@ int			psych(t_info *f)
 	}
 	if (f->lock == false && f->orbital == true)
 	{
-		if (f->julia->ci > _JULIA_RANGE || f->julia->ci < -_JULIA_RANGE)
+		if (f->julia->i > _JULIA_RANGE || f->julia->i < -_JULIA_RANGE)
 			iclock = (iclock == true ? false : true);
-		if (f->julia->cr > _JULIA_RANGE || f->julia->cr < -_JULIA_RANGE)
+		if (f->julia->r > _JULIA_RANGE || f->julia->r < -_JULIA_RANGE)
 			rclock = (rclock == true ? false : true);
-		f->julia->ci += (iclock == true ? 0.02 : -0.02);
-		f->julia->cr += (rclock == true ? 0.02 : -0.02);
+		f->julia->i += (iclock == true ? 0.02 : -0.02);
+		f->julia->r += (rclock == true ? 0.02 : -0.02);
 	}
 	if (f->psych == true || f->orbital == true)
 		GIMME(!output(f) && !output_data(f));

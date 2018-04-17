@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 15:17:49 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:07:00 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,12 @@ typedef struct	s_buddha
 	double		y;
 }				t_buddha;
 
-typedef struct	s_julia
-{
-	double		ci;
-	double		cr;
-}				t_julia;
-
 typedef struct	s_info
 {
 	bool		lock;
 	bool		orbital;
 	bool		psych;
+	bool		thumb_noise;
 	double		x_scale;
 	double		y_scale;
 	double		zoom;
@@ -70,7 +65,7 @@ typedef struct	s_info
 	int			x_max;
 	int			y;
 	int			y_max;
-	t_julia		*julia;
+	t_complex	*julia;
 	t_mlx		*mlx;
 	t_type		type;
 	t_type		*thumbnails;
