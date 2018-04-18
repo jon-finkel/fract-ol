@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/13 01:02:15 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 07:31:01 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 13:24:18 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*fish(t_info *f)
 {
-	double		tmp;
 	double		y;
 	t_complex	c;
+	t_complex	tmp;
 	t_complex	z;
 	uint16_t	it;
 
@@ -28,9 +28,9 @@ void	*fish(t_info *f)
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				tmp = z.r;
-				z.r = fabs(z.r * z.r - z.i * z.i) + c.r;
-				z.i = 2 * z.i * tmp + c.i;
+				tmp = z;
+				z.r = fabs(ft_zpowr(z, f->multi)) + c.r;
+				z.i = ft_zpowi(tmp, f->multi) + c.i;
 			}
 			ftx_buffpixel(_DATA_MLX_IMG(f), f->x, y, (it == f->it || it == 1 ?\
 				_BLACK : (it * f->r << 16) + (it * f->g << 8) + it * f->b));
@@ -40,9 +40,9 @@ void	*fish(t_info *f)
 
 void	*tricorn(t_info *f)
 {
-	double		tmp;
 	double		y;
 	t_complex	c;
+	t_complex	tmp;
 	t_complex	z;
 	uint16_t	it;
 
@@ -54,9 +54,9 @@ void	*tricorn(t_info *f)
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				tmp = z.r;
-				z.r = z.r * z.r - z.i * z.i + c.r;
-				z.i = -2 * z.i * tmp + c.i;
+				tmp = z;
+				z.r = ft_zpowr(z, f->multi) + c.r;
+				z.i = -ft_zpowi(tmp, f->multi) + c.i;
 			}
 			ftx_buffpixel(_DATA_MLX_IMG(f), f->x, y, (it == f->it || it == 1 ?\
 				_BLACK : (it * f->r << 16) + (it * f->g << 8) + it * f->b));
@@ -66,9 +66,9 @@ void	*tricorn(t_info *f)
 
 void	*burning(t_info *f)
 {
-	double		tmp;
 	double		y;
 	t_complex	c;
+	t_complex	tmp;
 	t_complex	z;
 	uint16_t	it;
 
@@ -80,10 +80,9 @@ void	*burning(t_info *f)
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				tmp = z.r;
-				z.r = z.r * z.r - z.i * z.i + c.r;
-				z.i = fabs(z.i * tmp);
-				z.i += z.i + c.i;
+				tmp = z;
+				z.r = ft_zpowr(z, f->multi) + c.r;
+				z.i = fabs(ft_zpowi(tmp, f->multi)) + c.i;
 			}
 			ftx_buffpixel(_DATA_MLX_IMG(f), f->x, y, (it == f->it || it == 1 ?\
 				_BLACK : (it * f->r << 16) + (it * f->g << 8) + it * f->b));

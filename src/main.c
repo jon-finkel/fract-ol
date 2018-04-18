@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 12:28:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 13:16:41 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int		output_thumbnails(t_info *f, bool refresh_thumb)
 		KTHXBYE;
 	}
 	ftx_clearimg(f->mlx->img[1]);
-	f->thumb_noise = true;
+	f->thumb = true;
 	k = -1;
 	while (++k < THREADS / 2)
 	{
@@ -69,7 +69,7 @@ static int		output_thumbnails(t_info *f, bool refresh_thumb)
 	}
 	while (k--)
 		pthread_join(th[k], NULL);
-	f->thumb_noise = false;
+	f->thumb = false;
 	ftx_showimg(f->mlx, WIN_X, 0);
 	KTHXBYE;
 }
@@ -87,7 +87,6 @@ int				output(t_info *f, bool refresh_thumb)
 	while (++k < THREADS)
 	{
 		info[k] = *f;
-		info[k].invert = true;
 		info[k].x = ((WIN_X / THREADS) * k) - 1;
 		info[k].y = -1;
 		info[k].x_max = (WIN_X / THREADS) * (k + 1);

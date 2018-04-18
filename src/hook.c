@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 07:35:57 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 12:59:09 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ int			button(int button, int x, int y, t_info *f)
 		f->zoom *= 0.9;
 	else if (button == X_SCROLL_UP)
 		f->zoom *= 1.1;
-	else if (button == 1)
+	else if (button == 1 && (x -= WIN_X) > 0)
 	{
-		x -= WIN_X;
 		k = -1;
 		while (++k < 8)
 			if (x >= g_thumbnails[k].x_begin && x < g_thumbnails[k].x_end
@@ -45,8 +44,8 @@ int			button(int button, int x, int y, t_info *f)
 				tmp = f->type;
 				f->type = f->thumbnails[g_thumbnails[k].index];
 				f->thumbnails[k] = tmp;
-				reset_info(f);
 			}
+		reset_info(f);
 		GIMME(!output(f, true) && !output_data(f));
 	}
 	GIMME(!output(f, false) && !output_data(f));
@@ -138,8 +137,8 @@ int			psych(t_info *f)
 			iclock = (iclock == true ? false : true);
 		if (f->julia->r > _JULIA_RANGE || f->julia->r < -_JULIA_RANGE)
 			rclock = (rclock == true ? false : true);
-		f->julia->i += (iclock == true ? 0.02 : -0.02);
-		f->julia->r += (rclock == true ? 0.02 : -0.02);
+		f->julia->i += (iclock == true ? 0.015 : -0.015);
+		f->julia->r += (rclock == true ? 0.015 : -0.015);
 	}
 	if (f->psych == true || f->orbital == true)
 		GIMME(!output(f, false) && !output_data(f));

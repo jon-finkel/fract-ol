@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 07:31:15 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 13:17:54 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static void	draw_points(t_info *f, const t_buddha b[], uint16_t it)
 {
 	int	c;
 
-	c = (f->r * 5 << 16) + (f->g * 5 << 8) + f->b * 5;
+	c = (f->r * 5 % 255 << 16) + (f->g * 5 % 255 << 8) + f->b * 5 % 255;
 	if (it < f->it && it >= f->noise)
 	{
-		if (f->thumb_noise == false)
+		if (f->thumb == false)
 			while (it--)
 				brighten_pixel(_DATA_MLX_IMG(f), b[it].x, b[it].y, c);
 		else
@@ -86,9 +86,9 @@ void		*buddhabrot(t_info *f)
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (f->invert ? z.i - f->y_scale : z.r - f->x_scale)\
+				b[it].x = (!f->thumb ? z.i - f->y_scale : z.r - f->x_scale)\
 					* f->zoom;
-				b[it].y = (f->invert ? z.r - f->x_scale : z.i - f->y_scale)\
+				b[it].y = (!f->thumb ? z.r - f->x_scale : z.i - f->y_scale)\
 					* f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
@@ -117,9 +117,9 @@ void		*triforce(t_info *f)
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (f->invert ? z.i - f->y_scale : z.r - f->x_scale)\
+				b[it].x = (!f->thumb ? z.i - f->y_scale : z.r - f->x_scale)\
 					* f->zoom;
-				b[it].y = (f->invert ? z.r - f->x_scale : z.i - f->y_scale)\
+				b[it].y = (!f->thumb ? z.r - f->x_scale : z.i - f->y_scale)\
 					* f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;

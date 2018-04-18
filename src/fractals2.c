@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:13:32 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 07:30:33 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 13:22:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*firebrot(t_info *f)
 {
-	double		tmp;
 	double		y;
 	t_complex	c;
+	t_complex	tmp;
 	t_complex	z;
 	uint16_t	it;
 
@@ -28,10 +28,9 @@ void	*firebrot(t_info *f)
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				tmp = z.r;
-				z.r = sin(z.r * z.r - z.i * z.i) + c.r;
-				z.i = z.i * tmp;
-				z.i += z.i + c.i;
+				tmp = z;
+				z.r = sin(ft_zpowr(z, f->multi)) + c.r;
+				z.i = ft_zpowi(tmp, f->multi) + c.i;
 			}
 			ftx_buffpixel(_DATA_MLX_IMG(f), f->x, y, (it == f->it || it == 1 ?\
 				_BLACK : (it * f->r << 16) + (it * f->g << 8) + it * f->b));
@@ -43,8 +42,8 @@ void	*mandelbrot(t_info *f)
 {
 	double		y;
 	t_complex	c;
-	t_complex	z;
 	t_complex	tmp;
+	t_complex	z;
 	uint16_t	it;
 
 	while (++f->x < f->x_max && (y = f->y))
@@ -68,8 +67,8 @@ void	*mandelbrot(t_info *f)
 void	*julia(t_info *f)
 {
 	double		y;
-	t_complex	z;
 	t_complex	tmp;
+	t_complex	z;
 	uint16_t	it;
 
 	while (++f->x < f->x_max && (y = f->y))
