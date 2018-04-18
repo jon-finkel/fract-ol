@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:13:32 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 17:14:35 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 07:30:33 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	*firebrot(t_info *f)
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;
-			z.r = 0;
-			z.i = 0;
+			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
 				tmp = z.r;
@@ -53,8 +52,7 @@ void	*mandelbrot(t_info *f)
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;
-			z.r = 0;
-			z.i = 0;
+			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
 				tmp = z;

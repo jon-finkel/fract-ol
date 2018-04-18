@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 20:04:21 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 07:35:57 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int			button(int button, int x, int y, t_info *f)
 				tmp = f->type;
 				f->type = f->thumbnails[g_thumbnails[k].index];
 				f->thumbnails[k] = tmp;
+				reset_info(f);
 			}
 		GIMME(!output(f, true) && !output_data(f));
 	}
@@ -90,13 +91,13 @@ int			key(int key, t_info *f)
 		reset_info(f);
 	else if (key == X_KEY_T && (f->type == E_JULIA || f->type == E_GALAXY))
 		f->lock = (f->lock ? false : true);
-	else if (f->type < E_BUDDHA && key == X_KEY_W)
+	else if (key == (f->type < E_BUDDHA ? X_KEY_W : X_KEY_A))
 		f->y_scale += 100 / f->zoom;
-	else if (f->type < E_BUDDHA && key == X_KEY_A)
+	else if (key == (f->type < E_BUDDHA ? X_KEY_A : X_KEY_W))
 		f->x_scale += 100 / f->zoom;
-	else if (f->type < E_BUDDHA && key == X_KEY_S)
+	else if (key == (f->type < E_BUDDHA ? X_KEY_S : X_KEY_D))
 		f->y_scale -= 100 / f->zoom;
-	else if (f->type < E_BUDDHA && key == X_KEY_D)
+	else if (key == (f->type < E_BUDDHA ? X_KEY_D : X_KEY_S))
 		f->x_scale -= 100 / f->zoom;
 	else if (key == X_KEY_MINUS)
 		f->it -= (f->it < 5 ? f->it : 5);

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 00:45:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 07:14:26 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,7 @@ static const int	g_ythumb[5] =
 	WIN_Y
 };
 
-static void	inv_pos(t_info *info, const int8_t k)
-{
-	if (k == 0 && (info->x_scale = -2.101999 * WIN_X / 1100.0))
-		info->y_scale = -2.098 * WIN_Y / 1100.0;
-	else if (k == 2 && (info->x_scale = -4.191999 * WIN_X / 1100.0))
-		info->y_scale = -6.098 * WIN_Y / 1100.0;
-	else if (k == 3 && (info->x_scale = -6.191999 * WIN_X / 1100.0))
-		info->y_scale = -6.198 * WIN_Y / 1100.0;
-}
-
-static void	reg_pos(t_info *info, const int8_t k)
+static void	get_pos(t_info *info, const int8_t k)
 {
 	if (k % 2 == 0)
 		info->x_scale = -1.998 * WIN_X / 1100.0;
@@ -76,7 +66,7 @@ t_info		thumb_info(t_info *f, const int8_t k)
 		info.noise = 6;
 		info.zoom = 66.2;
 	}
-	f->thumbnails[k] < E_BUDDHA ? reg_pos(&info, k) : inv_pos(&info, k);
+	get_pos(&info, k);
 	GIMME(info);
 }
 

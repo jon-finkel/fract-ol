@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 20:03:17 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 07:17:22 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int				output(t_info *f, bool refresh_thumb)
 	while (++k < THREADS)
 	{
 		info[k] = *f;
+		info[k].invert = true;
 		info[k].x = ((WIN_X / THREADS) * k) - 1;
 		info[k].y = -1;
 		info[k].x_max = (WIN_X / THREADS) * (k + 1);

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 20:03:03 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 07:16:57 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct	s_buddha
 
 typedef struct	s_info
 {
+	bool		invert;
 	bool		lock;
 	bool		orbital;
 	bool		psych;

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/17 19:45:16 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 07:31:15 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,13 @@ void		*buddhabrot(t_info *f)
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;
-			z.r = 0;
-			z.i = 0;
+			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (z.i - f->y_scale) * f->zoom;
-				b[it].y = (z.r - f->x_scale) * f->zoom;
+				b[it].x = (f->invert ? z.i - f->y_scale : z.r - f->x_scale)\
+					* f->zoom;
+				b[it].y = (f->invert ? z.r - f->x_scale : z.i - f->y_scale)\
+					* f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
 				z.i = z.i * tmp;
@@ -113,12 +114,13 @@ void		*triforce(t_info *f)
 		{
 			c.r = f->x / f->zoom + f->x_scale;
 			c.i = y / f->zoom + f->y_scale;
-			z.r = 0;
-			z.i = 0;
+			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
-				b[it].x = (z.i - f->y_scale) * f->zoom;
-				b[it].y = (z.r - f->x_scale) * f->zoom;
+				b[it].x = (f->invert ? z.i - f->y_scale : z.r - f->x_scale)\
+					* f->zoom;
+				b[it].y = (f->invert ? z.r - f->x_scale : z.i - f->y_scale)\
+					* f->zoom;
 				tmp = z.r;
 				z.r = z.r * z.r - z.i * z.i + c.r;
 				z.i = -2 * z.i * tmp + c.i;
