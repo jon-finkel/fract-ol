@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 07:14:26 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 14:05:35 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_type		*map_thumbnails(t_type *thumbnails, t_type current)
 
 void		reset_info(t_info *f)
 {
-	ft_memset(f, '\0', sizeof(f));
 	if (f->type == E_GALAXY)
 		f->it = 450;
 	else
@@ -103,4 +102,8 @@ void		reset_info(t_info *f)
 	f->julia->i = -0.27015;
 	f->julia->r = -0.715;
 	f->noise = (f->type == E_BUDDHA ? 200 : 6);
+	f->lock = false;
+	f->orbital = false;
+	f->psych = false;
+	f->thumb = false;
 }
