@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 21:43:34 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 21:55:01 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ t_info			thumb_info(t_info *f, const int8_t k);
 */
 int				button(int button, int x, int y, t_info *f);
 int				key(int key, t_info *f);
+int				loop(t_info *f);
 int				motion(int x, int y, t_info *f);
-int				psych(t_info *f);
 
 /*
 ** Fractals

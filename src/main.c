@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 13:16:41 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 21:55:08 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int				main(int argc, const char *argv[])
 	mlx_hook(f.mlx->win[0], X_KEYPRESS, X_KEYPRESS_MASK, key, &f);
 	mlx_hook(f.mlx->win[0], X_BUTTONPRESS, X_BUTTONPRESS_MASK, button, &f);
 	mlx_hook(f.mlx->win[0], X_MOTIONNOTIFY, X_POINTERMOTION_MASK, motion, &f);
-	mlx_loop_hook(f.mlx->mlx, psych, &f);
+	mlx_loop_hook(f.mlx->mlx, loop, &f);
 	mlx_loop(f.mlx->mlx);
 	KTHXBYE;
 }

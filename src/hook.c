@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 21:49:08 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 21:54:46 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,16 @@ int			motion(int x, int y, t_info *f)
 	KTHXBYE;
 }
 
-int			psych(t_info *f)
+int			loop(t_info *f)
 {
 	static bool	iclock = false;
 	static bool	rclock = true;
 
 	if (f->psych == true)
 	{
-		f->b += rand() % 10;
-		f->g += rand() % 5;
-		f->r += rand() % 15;
+		f->b += rand() % 7;
+		f->g += rand() % 3;
+		f->r += rand() % 11;
 	}
 	if (f->lock == false && f->orbital == true)
 	{
