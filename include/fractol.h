@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 13:16:04 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 21:43:34 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_info
 	bool		lock;
 	bool		orbital;
 	bool		psych;
+	bool		rtu;
 	bool		thumb;
 	double		x_scale;
 	double		y_scale;

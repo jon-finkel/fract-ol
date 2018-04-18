@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 14:05:35 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 21:44:23 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,5 @@ void		reset_info(t_info *f)
 	f->orbital = false;
 	f->psych = false;
 	f->thumb = false;
+	f->rtu = false;
 }

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 12:59:09 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/18 21:49:08 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,18 @@ int			button(int button, int x, int y, t_info *f)
 				f->type = f->thumbnails[g_thumbnails[k].index];
 				f->thumbnails[k] = tmp;
 			}
-		reset_info(f);
+		if (!f->rtu)
+			reset_info(f);
 		GIMME(!output(f, true) && !output_data(f));
 	}
-	GIMME(!output(f, false) && !output_data(f));
+	GIMME(!output(f, f->rtu) && !output_data(f));
 }
 
 static void	key2(int key, t_info *f)
 {
 	if (key == X_KEY_O)
 		f->orbital = (f->orbital == true ? false : true);
-	if (key == X_KEY_P)
+	else if (key == X_KEY_P)
 		f->psych = (f->psych == true ? false : true);
 	else if (key == X_KEY_1 || key == X_KEY_2)
 		f->r += (key == X_KEY_2 ? 1 : -1);
@@ -77,6 +78,8 @@ static void	key2(int key, t_info *f)
 		++f->multi;
 	else if (key == X_KEY_Q && f->multi > 1)
 		--f->multi;
+	else if (key == X_KEY_R)
+		f->rtu = (f->rtu ? false : true);
 }
 
 int			key(int key, t_info *f)
@@ -104,7 +107,7 @@ int			key(int key, t_info *f)
 		f->it += (f->it < 2000 ? 5 : 0);
 	else
 		key2(key, f);
-	GIMME(!output(f, (key == X_KEY_SPACE ? true : false)) && !output_data(f));
+	GIMME(!output(f, (key == X_KEY_SPACE ? true : f->rtu)) && !output_data(f));
 }
 
 int			motion(int x, int y, t_info *f)
@@ -115,7 +118,7 @@ int			motion(int x, int y, t_info *f)
 	{
 		f->julia->i = (y - WIN_Y / 2) / f->zoom;
 		f->julia->r = (x - WIN_X / 2) / f->zoom;
-		GIMME(!output(f, false) && !output_data(f));
+		GIMME(!output(f, f->rtu) && !output_data(f));
 	}
 	KTHXBYE;
 }
@@ -141,6 +144,6 @@ int			psych(t_info *f)
 		f->julia->r += (rclock == true ? 0.015 : -0.015);
 	}
 	if (f->psych == true || f->orbital == true)
-		GIMME(!output(f, false) && !output_data(f));
+		GIMME(!output(f, f->rtu) && !output_data(f));
 	KTHXBYE;
 }
