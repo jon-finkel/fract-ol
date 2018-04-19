@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 22:01:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 13:17:54 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/19 22:12:46 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void		*galaxy(t_info *f)
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			z.r = f->x / f->zoom + f->x_scale;
-			z.i = y / f->zoom + f->y_scale;
+			z.r = f->x / f->zoom + f->x_scale + f->x_origin;
+			z.i = y / f->zoom + f->y_scale + f->y_origin;
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
 				b[it].x = (z.r - f->x_scale) * f->zoom;
@@ -74,26 +74,24 @@ void		*buddhabrot(t_info *f)
 	double		tmp;
 	double		y;
 	t_buddha	b[f->it];
-	t_complex	c;
-	t_complex	z;
+	t_complex2	z;
 	uint16_t	it;
 
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			c.r = f->x / f->zoom + f->x_scale;
-			c.i = y / f->zoom + f->y_scale;
-			ft_memset(&z, '\0', sizeof(t_complex));
-			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
+			ft_memset(&z, '\0', sizeof(t_complex2));
+			z.cr = f->x / f->zoom + f->x_scale + f->x_origin;
+			z.ci = y / f->zoom + f->y_scale + f->y_origin;
+			while (++it < f->it && z.zr * z.zr + z.zi * z.zi <= 4)
 			{
-				b[it].x = (!f->thumb ? z.i - f->y_scale : z.r - f->x_scale)\
+				b[it].x = (!f->thumb ? z.zi - f->y_scale : z.zr - f->x_scale)\
 					* f->zoom;
-				b[it].y = (!f->thumb ? z.r - f->x_scale : z.i - f->y_scale)\
+				b[it].y = (!f->thumb ? z.zr - f->x_scale : z.zi - f->y_scale)\
 					* f->zoom;
-				tmp = z.r;
-				z.r = z.r * z.r - z.i * z.i + c.r;
-				z.i = z.i * tmp;
-				z.i += z.i + c.i;
+				tmp = z.zr;
+				z.zr = z.zr * z.zr - z.zi * z.zi + z.cr;
+				z.zi = 2 * z.zi * tmp + z.ci;
 			}
 			draw_points(f, b, it);
 		}
@@ -105,25 +103,24 @@ void		*triforce(t_info *f)
 	double		tmp;
 	double		y;
 	t_buddha	b[f->it];
-	t_complex	c;
-	t_complex	z;
+	t_complex2	z;
 	uint16_t	it;
 
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			c.r = f->x / f->zoom + f->x_scale;
-			c.i = y / f->zoom + f->y_scale;
-			ft_memset(&z, '\0', sizeof(t_complex));
-			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
+			ft_memset(&z, '\0', sizeof(t_complex2));
+			z.cr = f->x / f->zoom + f->x_scale + f->x_origin;
+			z.ci = y / f->zoom + f->y_scale + f->y_origin;
+			while (++it < f->it && z.zr * z.zr + z.zi * z.zi <= 4)
 			{
-				b[it].x = (!f->thumb ? z.i - f->y_scale : z.r - f->x_scale)\
+				b[it].x = (!f->thumb ? z.zi - f->y_scale : z.zr - f->x_scale)\
 					* f->zoom;
-				b[it].y = (!f->thumb ? z.r - f->x_scale : z.i - f->y_scale)\
+				b[it].y = (!f->thumb ? z.zr - f->x_scale : z.zi - f->y_scale)\
 					* f->zoom;
-				tmp = z.r;
-				z.r = z.r * z.r - z.i * z.i + c.r;
-				z.i = -2 * z.i * tmp + c.i;
+				tmp = z.zr;
+				z.zr = z.zr * z.zr - z.zi * z.zi + z.cr;
+				z.zi = -2 * z.zi * tmp + z.ci;
 			}
 			draw_points(f, b, it);
 		}

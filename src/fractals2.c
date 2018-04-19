@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/15 14:13:32 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 13:22:55 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/19 21:41:44 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	*firebrot(t_info *f)
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			c.r = f->x / f->zoom + f->x_scale;
-			c.i = y / f->zoom + f->y_scale;
+			c.r = f->x / f->zoom + f->x_scale + f->x_origin;
+			c.i = y / f->zoom + f->y_scale + f->y_origin;
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
@@ -49,8 +49,8 @@ void	*mandelbrot(t_info *f)
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			c.r = f->x / f->zoom + f->x_scale;
-			c.i = y / f->zoom + f->y_scale;
+			c.r = f->x / f->zoom + f->x_scale + f->x_origin;
+			c.i = y / f->zoom + f->y_scale + f->y_origin;
 			ft_memset(&z, '\0', sizeof(t_complex));
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
@@ -74,8 +74,8 @@ void	*julia(t_info *f)
 	while (++f->x < f->x_max && (y = f->y))
 		while (++y < f->y_max && (it = -1))
 		{
-			z.r = f->x / f->zoom + f->x_scale;
-			z.i = y / f->zoom + f->y_scale;
+			z.r = f->x / f->zoom + f->x_scale + f->x_origin;
+			z.i = y / f->zoom + f->y_scale + f->y_origin;
 			while (++it < f->it && z.r * z.r + z.i * z.i <= 4)
 			{
 				tmp = z;

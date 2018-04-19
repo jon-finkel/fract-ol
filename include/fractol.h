@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:06 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 21:55:01 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/19 22:08:08 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ typedef enum	e_type
 	E_VOID
 }				t_type;
 
+typedef struct	s_complex2
+{
+	double		ci;
+	double		cr;
+	double		zi;
+	double		zr;
+}				t_complex2;
+
 typedef struct	s_thumbnails
 {
 	int			x_begin;
@@ -59,12 +67,14 @@ typedef struct	s_info
 	bool		psych;
 	bool		rtu;
 	bool		thumb;
+	double		x_origin;
 	double		x_scale;
+	double		y_origin;
 	double		y_scale;
 	double		zoom;
 	int			x;
-	int			x_max;
 	int			y;
+	int			x_max;
 	int			y_max;
 	t_complex	*julia;
 	t_mlx		*mlx;
@@ -89,6 +99,7 @@ int				output(t_info *f, bool refresh_thumb);
 int				output_data(t_info *f);
 void			reset_info(t_info *f);
 t_info			thumb_info(t_info *f, const int8_t k);
+void			zoom(t_info *f, int x, int y, int button);
 
 /*
 ** Events

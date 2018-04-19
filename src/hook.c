@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 21:54:46 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/19 22:05:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ int			button(int button, int x, int y, t_info *f)
 	int		k;
 	t_type	tmp;
 
-	if (button == X_SCROLL_DOWN)
-		f->zoom *= 0.9;
-	else if (button == X_SCROLL_UP)
-		f->zoom *= 1.1;
+	if (button == X_SCROLL_DOWN || button == X_SCROLL_UP)
+		zoom(f, x, y, button);
 	else if (button == 1 && (x -= WIN_X) > 0)
 	{
 		k = -1;
@@ -64,12 +62,6 @@ static void	key2(int key, t_info *f)
 		f->g += (key == X_KEY_4 ? 1 : -1);
 	else if (key == X_KEY_5 || key == X_KEY_6)
 		f->b += (key == X_KEY_6 ? 1 : -1);
-	else if (key == X_KEY_7 || key == X_KEY_8)
-	{
-		f->r += (key == X_KEY_8 ? 1 : -1);
-		f->g += (key == X_KEY_8 ? 1 : -1);
-		f->b += (key == X_KEY_8 ? 1 : -1);
-	}
 	else if (key == X_KEY_9 && f->type >= E_GALAXY && f->noise < UINT16_MAX - 2)
 		f->noise += 2;
 	else if (key == X_KEY_0 && f->type >= E_GALAXY && f->noise > 2)

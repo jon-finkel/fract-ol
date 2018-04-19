@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 21:55:08 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/19 22:05:10 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static t_type	get_args(int argc, const char *s)
 		while (++k < E_VOID)
 			if (ft_strequ(s, g_fractal[k].name))
 				GIMME(k);
-	ft_printf("usage: ./fractol [ Mandelbrot | Julia | BurningShip | Tricorn | "\
-		"Fish | Firebrot | Galaxy | Buddhabrot | Triforce ]\n");
+	ft_printf("usage: ./fractol [ Mandelbrot | Julia | BurningShip | Tricorn "\
+		"| Fish | Firebrot | Galaxy | Buddhabrot | Triforce ]\n");
 	GIMME(E_VOID);
 }
 

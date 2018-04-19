@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/18 21:44:23 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/19 22:15:17 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,30 @@ t_info		thumb_info(t_info *f, const int8_t k)
 	GIMME(info);
 }
 
+void		zoom(t_info *f, int x, int y, int key)
+{
+	double	xn;
+	double	yn;
+	double	xp;
+	double	yp;
+
+	xp = x / f->zoom + f->x_scale + f->x_origin;
+	yp = y / f->zoom + f->y_scale + f->y_origin;
+	f->zoom *= (key == X_SCROLL_DOWN ? 0.9 : 1.1);
+	f->x_scale /= (key == X_SCROLL_DOWN ? 0.9 : 1.1);
+	f->y_scale /= (key == X_SCROLL_DOWN ? 0.9 : 1.1);
+	xn = x / f->zoom + f->x_scale + f->x_origin;
+	yn = y / f->zoom + f->y_scale + f->y_origin;
+	if ((key == X_SCROLL_UP && xn >= 0) || (key == X_SCROLL_DOWN && xn < 0))
+		f->x_origin += fdim(fmax(xn, xp), fmin(xn, xp));
+	else
+		f->x_origin -= fdim(fmax(xn, xp), fmin(xn, xp));
+	if ((key == X_SCROLL_UP && yn >= 0) || (key == X_SCROLL_DOWN && yn < 0))
+		f->y_origin += fdim(fmax(yn, yp), fmin(yn, yp));
+	else
+		f->y_origin -= fdim(fmax(yn, yp), fmin(yn, yp));
+}
+
 t_type		*map_thumbnails(t_type *thumbnails, t_type current)
 {
 	int8_t	k;
@@ -92,6 +116,8 @@ void		reset_info(t_info *f)
 		f->it = 450;
 	else
 		f->it = (f->type == E_BUDDHA ? 2000 : 100);
+	f->x_origin = 0.0;
+	f->y_origin = 0.0;
 	f->x_scale = -1.998 * WIN_X / 1100.0;
 	f->y_scale = -2.001999 * WIN_Y / 1100.0;
 	f->multi = 2;
