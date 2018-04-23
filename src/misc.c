@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:59:45 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/19 22:15:17 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/23 11:08:20 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,13 @@ void		zoom(t_info *f, int x, int y, int key)
 	f->y_scale /= (key == X_SCROLL_DOWN ? 0.9 : 1.1);
 	xn = x / f->zoom + f->x_scale + f->x_origin;
 	yn = y / f->zoom + f->y_scale + f->y_origin;
-	if ((key == X_SCROLL_UP && xn >= 0) || (key == X_SCROLL_DOWN && xn < 0))
+	if ((key == X_SCROLL_UP && xn >= f->x_origin)
+		|| (key == X_SCROLL_DOWN && xn < f->x_origin))
 		f->x_origin += fdim(fmax(xn, xp), fmin(xn, xp));
 	else
 		f->x_origin -= fdim(fmax(xn, xp), fmin(xn, xp));
-	if ((key == X_SCROLL_UP && yn >= 0) || (key == X_SCROLL_DOWN && yn < 0))
+	if ((key == X_SCROLL_UP && yn >= f->y_origin)
+		|| (key == X_SCROLL_DOWN && yn < f->y_origin))
 		f->y_origin += fdim(fmax(yn, yp), fmin(yn, yp));
 	else
 		f->y_origin -= fdim(fmax(yn, yp), fmin(yn, yp));
