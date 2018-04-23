@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 00:38:13 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/19 22:05:55 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/23 14:45:12 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ int			key(int key, t_info *f)
 	else if (key == X_KEY_T && (f->type == E_JULIA || f->type == E_GALAXY))
 		f->lock = (f->lock ? false : true);
 	else if (key == (f->type < E_BUDDHA ? X_KEY_W : X_KEY_A))
-		f->y_scale += 100 / f->zoom;
+		f->y_scale += 100.0 / f->zoom;
 	else if (key == (f->type < E_BUDDHA ? X_KEY_A : X_KEY_W))
-		f->x_scale += 100 / f->zoom;
+		f->x_scale += 100.0 / f->zoom;
 	else if (key == (f->type < E_BUDDHA ? X_KEY_S : X_KEY_D))
-		f->y_scale -= 100 / f->zoom;
+		f->y_scale -= 100.0 / f->zoom;
 	else if (key == (f->type < E_BUDDHA ? X_KEY_D : X_KEY_S))
-		f->x_scale -= 100 / f->zoom;
+		f->x_scale -= 100.0 / f->zoom;
 	else if (key == X_KEY_MINUS)
 		f->it -= (f->it < 5 ? f->it : 5);
 	else if (key == X_KEY_EQUAL)
