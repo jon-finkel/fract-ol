@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 16:41:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/04/19 22:05:10 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/26 15:06:27 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ int				main(int argc, const char *argv[])
 
 	if ((f.type = get_args(argc, argv[1])) == E_VOID)
 		KTHXBYE;
-	f.mlx = ftx_init(&mlx_stack);
+	f.mlx = ftx_mlxctor(&mlx_stack);
 	f.julia = &julia;
-	ftx_winctor(f.mlx, WIN_X + (WIN_X / 2), WIN_Y, WIN_TITLE);
+	ftx_winctor(f.mlx, WIN_TITLE, WIN_X + (WIN_X / 2), WIN_Y);
 	ftx_imgctor(f.mlx, WIN_X, WIN_Y);
 	ftx_imgctor(f.mlx, WIN_X / 2, WIN_Y);
 	f.thumbnails = map_thumbnails(thumbnails, f.type);
