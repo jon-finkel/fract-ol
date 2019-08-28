@@ -1,4 +1,4 @@
-# Fract'ol - @42Born2Code
+# FRACT OL - @42Born2Code
 
 A small fractal exploration program.
 
